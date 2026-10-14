@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+.turbo/
+*.tsbuildinfo
+
+# Local node binaries & runtimes
+node/
+
+# Environment & local config
+.env
+.env.local
+.env.*.local
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Internal AI session artifacts & developer scratchpads
+scratch/
+gemini_artifacts/
+graphify-out/
+.agents/
+
+# Test & coverage artifacts
+test-results/
+playwright-report/
+coverage/
+
+# Generated PWA assets
+apps/web/public/sw.js
+apps/web/public/workbox-*.js
