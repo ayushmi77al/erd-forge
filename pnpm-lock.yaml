@@ -54,7 +54,7 @@ importers:
         specifier: ^4.4.2
         version: 4.4.2
       html-to-image:
-        specifier: ^1.11.11
+        specifier: ^1.11.13
         version: 1.11.13
       idb:
         specifier: ^8.0.3
