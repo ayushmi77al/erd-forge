@@ -1,0 +1,117 @@
+.tableNode {
+  background-color: var(--color-surface-base);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  min-width: 200px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  overflow: hidden;
+  font-family: var(--font-ui);
+  transition: box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+.tableNode[data-selected="true"] {
+  box-shadow: 0 0 0 2px var(--color-brand-500);
+  border-color: var(--color-brand-400);
+}
+
+.header {
+  background-color: var(--color-surface-overlay);
+  padding: var(--space-2) var(--space-3);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.domainBadge {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-brand-500);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.columns {
+  display: flex;
+  flex-direction: column;
+}
+
+.columnRow {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.pkRow {
+  background-color: rgba(56, 189, 248, 0.07);
+}
+
+.column {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.8rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+  min-height: 28px;
+}
+
+.columnRow:last-child .column {
+  border-bottom: none;
+}
+
+.columnName {
+  font-family: var(--font-mono);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.pkIcon {
+  color: #38bdf8;
+}
+
+.fkIcon {
+  color: #94a3b8;
+}
+
+.columnRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.columnType {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.optBadge {
+  font-size: 0.65rem;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background-color: var(--color-surface-raised, #334155);
+  color: var(--color-text-secondary, #94a3b8);
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.handle {
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50% !important;
+  border: 1.5px solid var(--color-border-strong, #64748b) !important;
+  background-color: var(--color-surface-base, #0f172a) !important;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.handle:hover {
+  background-color: #38bdf8 !important;
+  border-color: #38bdf8 !important;
+}

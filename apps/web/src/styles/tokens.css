@@ -1,0 +1,74 @@
+:root {
+  /* Brand */
+  --color-brand-500: hsl(230, 70%, 55%);
+  --color-brand-400: hsl(230, 70%, 65%);
+  --color-brand-600: hsl(230, 70%, 45%);
+  
+  /* Surfaces (Dark Mode defaults, overridden by theme files) */
+  --color-surface-base: hsl(220, 20%, 8%);
+  --color-surface-raised: hsl(220, 18%, 12%);
+  --color-surface-overlay: hsl(220, 16%, 16%);
+  --color-surface-sunken: hsl(220, 22%, 6%);
+  
+  /* Borders */
+  --color-border-subtle: hsl(220, 15%, 20%);
+  --color-border-default: hsl(220, 15%, 25%);
+  --color-border-strong: hsl(220, 15%, 35%);
+  
+  /* Text */
+  --color-text-primary: hsl(220, 15%, 95%);
+  --color-text-secondary: hsl(220, 12%, 65%);
+  --color-text-muted: hsl(220, 10%, 45%);
+  
+  /* Semantic */
+  --color-success: hsl(152, 60%, 48%);
+  --color-warning: hsl(38, 92%, 55%);
+  --color-error: hsl(355, 70%, 55%);
+  --color-info: hsl(210, 80%, 58%);
+  
+  /* Domain Colors */
+  --domain-sales:       hsl(14, 80%, 58%);
+  --domain-finance:     hsl(152, 60%, 45%);
+  --domain-marketing:   hsl(280, 65%, 58%);
+  --domain-customer:    hsl(198, 75%, 52%);
+  --domain-hr:          hsl(330, 65%, 55%);
+  --domain-supply:      hsl(38, 85%, 52%);
+  --domain-product:     hsl(175, 60%, 45%);
+  --domain-analytics:   hsl(230, 70%, 58%);
+  --domain-ops:         hsl(20, 70%, 52%);
+  --domain-legal:       hsl(260, 55%, 55%);
+  
+  /* Review Status */
+  --status-draft:       hsl(220, 10%, 55%);
+  --status-review:      hsl(38, 85%, 52%);
+  --status-approved:    hsl(152, 60%, 48%);
+  --status-deprecated:  hsl(355, 60%, 50%);
+  
+  /* Typography */
+  --font-ui: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --duration-slow: 350ms;
+}

@@ -1,0 +1,104 @@
+.canvasWrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-surface-sunken);
+}
+
+/* Customizing xyflow standard classes to fit our theme */
+:global(.react-flow__background) {
+  background-color: var(--color-surface-sunken);
+}
+
+:global(.react-flow__controls) {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-base);
+  fill: var(--color-text-secondary);
+}
+
+:global(.react-flow__controls-button) {
+  background-color: var(--color-surface-base);
+  border-bottom: 1px solid var(--color-border-subtle);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+:global(.react-flow__controls-button:hover) {
+  background-color: var(--color-surface-overlay);
+}
+
+:global(.react-flow__minimap) {
+  background-color: var(--color-surface-base);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+}
+
+:global(.react-flow__minimap-mask) {
+  fill: var(--color-surface-overlay);
+  opacity: 0.6;
+}
+
+/* Ensure React Flow edges SVG container is never clipped or collapsed */
+:global(.react-flow__edges) {
+  overflow: visible !important;
+}
+
+:global(.react-flow__edges svg) {
+  overflow: visible !important;
+  max-width: none !important;
+  pointer-events: none;
+}
+
+:global(.react-flow__edge) {
+  pointer-events: visibleStroke;
+}
+
+:global(.react-flow__edge-path) {
+  stroke: #38bdf8;
+  stroke-width: 2px;
+  fill: none !important;
+}
+
+.staleNotice {
+  position: absolute;
+  top: var(--space-3);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.pulseDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -6px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+

@@ -1,0 +1,14 @@
+[data-theme="light"] {
+  --color-surface-base: hsl(220, 20%, 98%);
+  --color-surface-raised: hsl(0, 0%, 100%);
+  --color-surface-overlay: hsl(0, 0%, 100%);
+  --color-surface-sunken: hsl(220, 15%, 95%);
+  
+  --color-border-subtle: hsl(220, 15%, 90%);
+  --color-border-default: hsl(220, 15%, 85%);
+  --color-border-strong: hsl(220, 15%, 75%);
+  
+  --color-text-primary: hsl(220, 15%, 15%);
+  --color-text-secondary: hsl(220, 12%, 35%);
+  --color-text-muted: hsl(220, 10%, 55%);
+}

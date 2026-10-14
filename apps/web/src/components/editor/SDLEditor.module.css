@@ -1,0 +1,152 @@
+.editorContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  border-left: 1px solid var(--color-border-subtle);
+  background-color: var(--color-surface-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.header {
+  height: 48px;
+  box-sizing: border-box;
+  padding: 0 var(--space-4);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface-raised);
+  border-bottom: 1px solid var(--color-border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.validBadge {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.errorBadgeHeader {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.12);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.errorBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.05) 100%);
+  border-bottom: 1px solid rgba(239, 68, 68, 0.3);
+  font-size: 0.78rem;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  user-select: none;
+}
+
+.errorBanner:hover {
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.22) 0%, rgba(239, 68, 68, 0.1) 100%);
+}
+
+.errorBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #ef4444;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.7rem;
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.errorMessage {
+  flex: 1;
+  color: #fca5a5;
+  font-family: var(--font-mono);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.jumpHint {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+.editorWrapper {
+  flex: 1;
+  overflow: auto;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.editorWrapper :global(.cm-editor) {
+  height: 100%;
+}
+
+.editorWrapper :global(.cm-scroller) {
+  overflow: auto;
+}
+
+/* CodeMirror Diagnostics / Lint Styling */
+.editorWrapper :global(.cm-diagnostic-error) {
+  border-left: 3px solid #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+  padding: 4px 8px;
+}
+
+.editorWrapper :global(.cm-lint-marker-error) {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #ef4444;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.7);
+  margin-top: 5px;
+}
+
+.editorWrapper :global(.cm-lintRange-error) {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='6' height='3'%3E%3Cpath d='M0 3 L3 0 L6 3' fill='none' stroke='%23ef4444' stroke-width='1'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: bottom;
+  padding-bottom: 2px;
+}
+

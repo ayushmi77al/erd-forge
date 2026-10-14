@@ -1,0 +1,103 @@
+.toggle {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  background-color: var(--color-surface-sunken);
+  padding: 2px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-subtle);
+  isolation: isolate;
+  user-select: none;
+  overflow: hidden;
+}
+
+.option {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  border: none;
+  border-radius: calc(var(--radius-sm) - 1px);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: color 150ms ease;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.option:hover {
+  color: var(--color-text-primary);
+}
+
+.option.active {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.thumb {
+  position: absolute;
+  z-index: 0;
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  width: calc((100% - 4px) / 2);
+  border-radius: calc(var(--radius-sm) - 1px);
+  background-color: var(--color-surface-raised);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transform: translateX(0) scaleX(1);
+  transform-origin: left center;
+  transition: transform 480ms cubic-bezier(0.2, 1.6, 0.35, 1);
+  pointer-events: none;
+}
+
+/* Selected position: right */
+.toggle.isRight .thumb {
+  transform: translateX(100%) scaleX(1);
+  transform-origin: left center;
+}
+
+/* While pressing right option (when currently left), stretch right without moving */
+.toggle.isPressedRight:not(.isRight) .thumb {
+  transform: translateX(0) scaleX(1.15);
+  transform-origin: left center;
+}
+
+/* While pressing left option (when currently right), stretch left without moving */
+.toggle.isPressedLeft.isRight .thumb {
+  transform: translateX(100%) scaleX(1.15);
+  transform-origin: right center;
+}
+
+/* Gentle squish when pressing the already-selected option */
+.toggle.isPressedSame:not(.isRight) .thumb {
+  transform: translateX(0) scale(0.95, 0.88);
+  transform-origin: center;
+}
+
+.toggle.isPressedSame.isRight .thumb {
+  transform: translateX(100%) scale(0.95, 0.88);
+  transform-origin: center;
+}
+
+/* Quick response while pressing; the slide uses the spring above */
+.toggle.isPressedRight .thumb,
+.toggle.isPressedLeft .thumb,
+.toggle.isPressedSame .thumb {
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumb {
+    transition-duration: 1ms;
+  }
+}

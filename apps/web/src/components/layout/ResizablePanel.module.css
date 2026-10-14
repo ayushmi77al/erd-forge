@@ -1,0 +1,37 @@
+.resizablePanel {
+  display: flex;
+  position: relative;
+  height: 100%;
+  flex-shrink: 0;
+  background-color: var(--color-surface);
+}
+
+.content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.resizerLeft, .resizerRight {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: col-resize;
+  z-index: 10;
+  background-color: transparent;
+  transition: background-color 0.2s;
+}
+
+.resizerLeft {
+  left: -2px;
+}
+
+.resizerRight {
+  right: -2px;
+}
+
+.resizerLeft:hover, .resizerRight:hover, .resizerLeft:active, .resizerRight:active {
+  background-color: var(--color-primary);
+}
