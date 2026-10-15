@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Database, Network, GitMerge } from 'lucide-react';
+import { Database, Network, GitMerge, ExternalLink } from 'lucide-react';
 import { useProjectStore } from '../../stores/projectStore';
 import { useUIStore } from '../../stores/uiStore';
 import styles from './Header.module.css';
@@ -75,6 +75,16 @@ export const Header: React.FC = () => {
           <span>SQL Lineage</span>
         </button>
       </div>
+
+      <a
+        href="https://forbiddenai.in"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.attributionBadge}
+        aria-label="Built by Forbidden AI — visit forbiddenai.in"
+      >
+        Built by <strong>Forbidden AI</strong> <ExternalLink size={11} />
+      </a>
     </header>
   );
 };

@@ -107,3 +107,28 @@
   margin-left: 2px;
 }
 
+.attributionBadge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-subtle);
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  margin-left: auto;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.attributionBadge strong {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.attributionBadge:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-border-default);
+}
+
