@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
@@ -25,16 +28,15 @@ jobs:
 
       - name: Commit dist to dist-deploy branch
         run: |
+          mkdir -p /tmp/deploy-repo
+          cd /tmp/deploy-repo
+          git init -b dist-deploy
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          cp -r apps/web/dist /tmp/erd-forge-dist
-          git fetch origin dist-deploy 2>/dev/null || true
-          git checkout --orphan dist-deploy-new
-          git rm -rf . > /dev/null 2>&1 || true
-          cp -r /tmp/erd-forge-dist/. .
+          cp -r "$GITHUB_WORKSPACE/apps/web/dist/." .
           git add -A
           git commit -m "chore: dist [sha: ${{ github.sha }}]"
-          git push origin dist-deploy-new:dist-deploy --force
+          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" dist-deploy --force
 
       - name: Trigger forbiddenai Vercel redeploy
         if: success()
