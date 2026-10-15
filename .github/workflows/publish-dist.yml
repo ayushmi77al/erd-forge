@@ -1,0 +1,46 @@
+name: Publish Dist & Trigger Forbiddenai Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm --filter @erd-forge/web build:grammar
+
+      - run: pnpm build
+
+      - name: Commit dist to dist-deploy branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          cp -r apps/web/dist /tmp/erd-forge-dist
+          git fetch origin dist-deploy 2>/dev/null || true
+          git checkout --orphan dist-deploy-new
+          git rm -rf . > /dev/null 2>&1 || true
+          cp -r /tmp/erd-forge-dist/. .
+          git add -A
+          git commit -m "chore: dist [sha: ${{ github.sha }}]"
+          git push origin dist-deploy-new:dist-deploy --force
+
+      - name: Trigger forbiddenai Vercel redeploy
+        if: success()
+        run: |
+          if [ -n "${{ secrets.VERCEL_FORBIDDENAI_DEPLOY_HOOK }}" ]; then
+            curl -X POST "${{ secrets.VERCEL_FORBIDDENAI_DEPLOY_HOOK }}"
+          else
+            echo "VERCEL_FORBIDDENAI_DEPLOY_HOOK secret is not set yet. Skipping hook trigger."
+          fi
