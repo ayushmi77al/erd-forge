@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="6" fill="#1a1a2e"/>
+  <!-- E shape -->
+  <rect x="6" y="7" width="8" height="2" rx="1" fill="#6366f1"/>
+  <rect x="6" y="11" width="6" height="2" rx="1" fill="#6366f1"/>
+  <rect x="6" y="15" width="8" height="2" rx="1" fill="#6366f1"/>
+  <rect x="6" y="7" width="2" height="10" rx="1" fill="#6366f1"/>
+  <!-- F shape -->
+  <rect x="18" y="7" width="8" height="2" rx="1" fill="#a5b4fc"/>
+  <rect x="18" y="11" width="6" height="2" rx="1" fill="#a5b4fc"/>
+  <rect x="18" y="7" width="2" height="10" rx="1" fill="#a5b4fc"/>
+  <!-- Diagram connection dot and link line -->
+  <circle cx="16" cy="24" r="2" fill="#6366f1" opacity="0.8"/>
+  <circle cx="8" cy="24" r="1.5" fill="#6366f1" opacity="0.5"/>
+  <circle cx="24" cy="24" r="1.5" fill="#a5b4fc" opacity="0.5"/>
+  <line x1="9.5" y1="24" x2="14" y2="24" stroke="#6366f1" stroke-width="1" opacity="0.5"/>
+  <line x1="18" y1="24" x2="22.5" y2="24" stroke="#a5b4fc" stroke-width="1" opacity="0.5"/>
+</svg>
