@@ -1,15 +1,15 @@
-import { describe, it, expect } from 'vitest';
-import { parseSqlToSdl, detectSqlStats, cleanIdentifier } from '@/parsers/sql/sqlToSdl';
+import { describe, expect, it } from "vitest";
+import { cleanIdentifier, detectSqlStats, parseSqlToSdl } from "@/parsers/sql/sqlToSdl";
 
-describe('sqlToSdl', () => {
-  it('cleans identifiers properly', () => {
-    expect(cleanIdentifier('`users`')).toBe('users');
-    expect(cleanIdentifier('"public"."orders"')).toBe('orders');
-    expect(cleanIdentifier('[schema].[products]')).toBe('products');
-    expect(cleanIdentifier('  id  ')).toBe('id');
+describe("sqlToSdl", () => {
+  it("cleans identifiers properly", () => {
+    expect(cleanIdentifier("`users`")).toBe("users");
+    expect(cleanIdentifier('"public"."orders"')).toBe("orders");
+    expect(cleanIdentifier("[schema].[products]")).toBe("products");
+    expect(cleanIdentifier("  id  ")).toBe("id");
   });
 
-  it('parses basic CREATE TABLE statement', () => {
+  it("parses basic CREATE TABLE statement", () => {
     const sql = `
       CREATE TABLE users (
         id INT PRIMARY KEY,
@@ -20,21 +20,21 @@ describe('sqlToSdl', () => {
 
     const res = parseSqlToSdl(sql);
     expect(res.tables).toHaveLength(1);
-    expect(res.tables[0]!.name).toBe('users');
+    expect(res.tables[0]!.name).toBe("users");
     expect(res.tables[0]!.columns).toHaveLength(3);
 
     const [idCol, userCol, emailCol] = res.tables[0]!.columns;
-    expect(idCol!.name).toBe('id');
+    expect(idCol!.name).toBe("id");
     expect(idCol!.isPk).toBe(true);
 
-    expect(userCol!.name).toBe('username');
+    expect(userCol!.name).toBe("username");
     expect(userCol!.isNotNull).toBe(true);
 
-    expect(emailCol!.name).toBe('email');
+    expect(emailCol!.name).toBe("email");
     expect(emailCol!.isUnique).toBe(true);
   });
 
-  it('parses table-level PRIMARY KEY and FOREIGN KEY constraints', () => {
+  it("parses table-level PRIMARY KEY and FOREIGN KEY constraints", () => {
     const sql = `
       CREATE TABLE orders (
         id INT,
@@ -50,14 +50,14 @@ describe('sqlToSdl', () => {
     expect(res.tables[0]!.columns[0]!.isPk).toBe(true);
     expect(res.refs).toHaveLength(1);
     expect(res.refs[0]!).toEqual({
-      sourceTable: 'orders',
-      sourceColumn: 'user_id',
-      targetTable: 'users',
-      targetColumn: 'id',
+      sourceTable: "orders",
+      sourceColumn: "user_id",
+      targetTable: "users",
+      targetColumn: "id",
     });
   });
 
-  it('parses ALTER TABLE ADD FOREIGN KEY statements', () => {
+  it("parses ALTER TABLE ADD FOREIGN KEY statements", () => {
     const sql = `
       CREATE TABLE users (id INT PRIMARY KEY);
       CREATE TABLE posts (id INT PRIMARY KEY, author_id INT);
@@ -71,14 +71,14 @@ describe('sqlToSdl', () => {
     expect(res.tables).toHaveLength(2);
     expect(res.refs).toHaveLength(1);
     expect(res.refs[0]!).toEqual({
-      sourceTable: 'posts',
-      sourceColumn: 'author_id',
-      targetTable: 'users',
-      targetColumn: 'id',
+      sourceTable: "posts",
+      sourceColumn: "author_id",
+      targetTable: "users",
+      targetColumn: "id",
     });
   });
 
-  it('generates valid SDL text representation', () => {
+  it("generates valid SDL text representation", () => {
     const sql = `
       CREATE TABLE categories (
         id INT PRIMARY KEY,
@@ -94,12 +94,12 @@ describe('sqlToSdl', () => {
     `;
 
     const res = parseSqlToSdl(sql);
-    expect(res.sdl).toContain('Table categories');
-    expect(res.sdl).toContain('Table products');
-    expect(res.sdl).toContain('Ref: products.category_id > categories.id');
+    expect(res.sdl).toContain("Table categories");
+    expect(res.sdl).toContain("Table products");
+    expect(res.sdl).toContain("Ref: products.category_id > categories.id");
   });
 
-  it('computes live stats accurately with detectSqlStats', () => {
+  it("computes live stats accurately with detectSqlStats", () => {
     const sql = `
       CREATE TABLE t1 (id INT PRIMARY KEY);
       CREATE TABLE t2 (id INT PRIMARY KEY, t1_id INT, FOREIGN KEY (t1_id) REFERENCES t1(id));

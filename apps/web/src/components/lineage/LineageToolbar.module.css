@@ -11,69 +11,21 @@
   flex-shrink: 0;
 }
 
-.leftGroup, .centerGroup, .rightGroup {
+.leftGroup,
+.centerGroup,
+.rightGroup {
   display: flex;
   align-items: center;
   gap: var(--space-2);
 }
 
+.divider,
 .groupDivider {
   width: 1px;
   height: 20px;
   background-color: var(--color-border-subtle);
-  margin: 0 4px;
+  margin: 0 var(--space-1);
 }
-
-.selectWrapper {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  position: relative;
-}
-
-.selectLabel {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.select {
-  appearance: none;
-  background-color: var(--color-surface-base);
-  border: 1px solid var(--color-border-subtle);
-  color: var(--color-text-primary);
-  font-size: 0.8rem;
-  font-weight: 500;
-  padding: 5px 28px 5px 10px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  outline: none;
-  font-family: inherit;
-  transition: all var(--duration-fast) var(--ease-standard);
-}
-
-.select:hover {
-  border-color: var(--color-border-strong);
-  background-color: var(--color-surface-overlay);
-}
-
-.select:focus {
-  border-color: var(--color-brand-400);
-  box-shadow: 0 0 0 1px var(--color-brand-400);
-}
-
-.selectChevron {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  color: var(--color-text-muted);
-}
-
-
 
 .iconBtn {
   display: inline-flex;
@@ -86,12 +38,20 @@
   background: transparent;
   color: var(--color-text-secondary);
   cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-standard);
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
 }
 
 .iconBtn:hover {
   background-color: var(--color-surface-overlay);
   color: var(--color-text-primary);
+}
+
+.iconBtn:focus-visible {
+  outline: 2px solid var(--color-brand-400);
+  outline-offset: 2px;
 }
 
 .iconBtn.active {
@@ -110,10 +70,12 @@
   border: 1px solid var(--color-border-subtle);
   background: transparent;
   color: var(--color-text-secondary);
-  font-size: 0.8rem;
+  font-size: var(--font-size-sm);
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-standard);
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
 }
 
 .catalogBtn:hover {
@@ -121,30 +83,43 @@
   color: var(--color-text-primary);
 }
 
+.catalogBtn:focus-visible {
+  outline: 2px solid var(--color-brand-400);
+  outline-offset: 2px;
+}
+
 .analyzeBtn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
-  font-size: 0.82rem;
+  font-size: var(--font-size-sm);
   font-weight: 600;
   border-radius: var(--radius-sm);
   border: none;
   background-color: var(--color-brand-500);
-  color: #ffffff;
+  color: var(--color-text-inverse);
   cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-standard);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+  box-shadow: var(--shadow-sm);
 }
 
 .analyzeBtn:hover:not(:disabled) {
   background-color: var(--color-brand-400);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--shadow-md);
   transform: translateY(-1px);
 }
 
 .analyzeBtn:active:not(:disabled) {
   transform: translateY(0);
+}
+
+.analyzeBtn:focus-visible {
+  outline: 2px solid var(--color-brand-400);
+  outline-offset: 2px;
 }
 
 .analyzeBtn:disabled {
@@ -154,9 +129,9 @@
 
 .analyzeShortcut {
   font-size: 0.68rem;
-  padding: 1px 4px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
+  padding: 1px var(--space-1);
+  background-color: color-mix(in srgb, var(--color-text-inverse) 20%, transparent);
+  border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-weight: 500;
 }
@@ -165,9 +140,9 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.75rem;
+  font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
-  padding: 4px 8px;
+  padding: var(--space-1) var(--space-2);
   background-color: var(--color-surface-base);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-sm);
@@ -176,7 +151,7 @@
 .statsDot {
   width: 6px;
   height: 6px;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   background-color: var(--color-success);
 }
 
@@ -190,23 +165,37 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+.exportWrapper {
+  position: relative;
 }
 
 .headerBtn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  font-size: 0.72rem;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-xs);
   font-weight: 500;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border-subtle);
   background: var(--color-surface-raised);
   color: var(--color-text-secondary);
   cursor: pointer;
-  transition: all var(--duration-fast);
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
   height: 30px;
 }
 
@@ -214,6 +203,11 @@
   background-color: var(--color-surface-overlay);
   color: var(--color-text-primary);
   border-color: var(--color-border-strong);
+}
+
+.headerBtn:focus-visible {
+  outline: 2px solid var(--color-brand-400);
+  outline-offset: 2px;
 }
 
 .dropdownMenu {
@@ -224,29 +218,41 @@
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
-  padding: 4px;
+  padding: var(--space-1);
   display: flex;
   flex-direction: column;
-  z-index: 100;
+  z-index: var(--z-dropdown);
   min-width: 140px;
+}
+
+.dropdownMenuRight {
+  right: 0;
+  left: auto;
 }
 
 .dropdownItem {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
   padding: 6px 10px;
   background: transparent;
   border: none;
   border-radius: var(--radius-sm);
   color: var(--color-text-secondary);
-  font-size: 0.75rem;
+  font-size: var(--font-size-xs);
   text-align: left;
   cursor: pointer;
-  transition: background-color var(--duration-fast);
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
 }
 
 .dropdownItem:hover {
   background-color: var(--color-surface-overlay);
   color: var(--color-text-primary);
+}
+
+.dropdownItem:focus-visible {
+  outline: 2px solid var(--color-brand-400);
+  outline-offset: -1px;
 }

@@ -1,0 +1,54 @@
+.cardinalityGlyph {
+  pointer-events: none;
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+
+.centerLabel {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-2xs);
+  line-height: 1.2;
+  font-family: var(--font-mono);
+  pointer-events: all;
+  cursor: pointer;
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-text-secondary);
+  box-shadow: var(--shadow-sm);
+  transition:
+    opacity var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+.centerLabel:hover,
+.centerLabel[data-highlighted="true"] {
+  background-color: var(--color-surface-overlay);
+  border-color: var(--color-brand-400);
+  color: var(--color-text-primary);
+  z-index: 20;
+}
+
+.centerLabel[data-dimmed="true"] {
+  opacity: 0.25;
+}
+
+.centerLabel:focus-visible {
+  outline: 2px solid var(--color-brand-400);
+  outline-offset: 2px;
+}
+
+.cardinalityChip {
+  font-size: var(--font-size-2xs);
+  font-weight: 700;
+  color: var(--color-brand-300);
+  background-color: color-mix(in srgb, var(--color-brand-400) 16%, transparent);
+  padding: 0 4px;
+  border-radius: var(--radius-sm);
+}
+

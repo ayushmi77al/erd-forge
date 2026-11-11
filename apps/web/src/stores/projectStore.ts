@@ -1,9 +1,9 @@
-import { create } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
-import { ERDForgeProject } from '../core/models';
-import { CommandManager } from '../core/commands/CommandManager';
-import { Command } from '../core/commands/Command';
-import { useHistoryStore } from './historyStore';
+import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
+import type { Command } from "../core/commands/Command";
+import { CommandManager } from "../core/commands/CommandManager";
+import type { ERDForgeProject } from "../core/models";
+import { useHistoryStore } from "./historyStore";
 
 export const commandManager = new CommandManager();
 
@@ -27,17 +27,19 @@ export const useProjectStore = create<ProjectSlice>()(
     project: null,
     isLoading: true,
 
-    setProject: (project) => set((state) => {
-      state.project = project;
-      state.isLoading = false;
-    }),
+    setProject: (project) =>
+      set((state) => {
+        state.project = project;
+        state.isLoading = false;
+      }),
 
-    setProjectName: (name) => set((state) => {
-      if (state.project) {
-        state.project.name = name;
-        state.project.updatedAt = new Date().toISOString();
-      }
-    }),
+    setProjectName: (name) =>
+      set((state) => {
+        if (state.project) {
+          state.project.name = name;
+          state.project.updatedAt = new Date().toISOString();
+        }
+      }),
 
     executeCommand: (command) => {
       set((state) => {
@@ -72,5 +74,5 @@ export const useProjectStore = create<ProjectSlice>()(
       });
       useHistoryStore.getState().syncWithManager(commandManager);
     },
-  }))
+  })),
 );

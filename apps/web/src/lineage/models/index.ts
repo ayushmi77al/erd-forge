@@ -1,3 +1,1 @@
-export * from './LineageNode';
-export * from './LineageEdge';
-export * from './LineageGraph';
+export * from "@erd-forge/lineage";

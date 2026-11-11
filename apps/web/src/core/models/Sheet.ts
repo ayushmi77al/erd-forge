@@ -3,21 +3,21 @@ export interface SheetEntityLayout {
   x: number;
   y: number;
   width?: number;
-  collapsed: boolean;               // Show only table name
-  displayMode: 'full' | 'compact' | 'name_only';
+  collapsed: boolean; // Show only table name
+  displayMode: "full" | "compact" | "name_only";
 }
 
 export interface Sheet {
   id: string;
   name: string;
   description?: string;
-  scope?: string;                    // Markdown notes on scope
+  scope?: string; // Markdown notes on scope
   stakeholderNotes?: string;
   ordinalPosition: number;
-  
+
   // Entities included in this sheet
   entityLayouts: SheetEntityLayout[];
-  
+
   // Display settings
   zoom: number;
   panX: number;

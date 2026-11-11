@@ -1,14 +1,43 @@
 [data-theme="light"] {
+  --color-brand-300: hsl(230, 70%, 38%);
+  --color-brand-400: hsl(230, 70%, 48%);
+  --color-brand-500: hsl(230, 72%, 52%);
+  --color-brand-600: hsl(230, 72%, 44%);
+
   --color-surface-base: hsl(220, 20%, 98%);
   --color-surface-raised: hsl(0, 0%, 100%);
-  --color-surface-overlay: hsl(0, 0%, 100%);
-  --color-surface-sunken: hsl(220, 15%, 95%);
-  
-  --color-border-subtle: hsl(220, 15%, 90%);
-  --color-border-default: hsl(220, 15%, 85%);
-  --color-border-strong: hsl(220, 15%, 75%);
-  
-  --color-text-primary: hsl(220, 15%, 15%);
-  --color-text-secondary: hsl(220, 12%, 35%);
-  --color-text-muted: hsl(220, 10%, 55%);
+  --color-surface-overlay: hsl(220, 18%, 95%);
+  --color-surface-sunken: hsl(220, 16%, 93%);
+
+  --color-border-subtle: hsl(220, 15%, 88%);
+  --color-border-default: hsl(220, 15%, 80%);
+  --color-border-strong: hsl(220, 15%, 65%);
+
+  --color-text-primary: hsl(220, 22%, 12%);
+  --color-text-secondary: hsl(220, 14%, 34%);
+  --color-text-muted: hsl(220, 12%, 44%);
+  --color-text-disabled: hsl(220, 10%, 62%);
+  --color-text-inverse: hsl(0, 0%, 100%);
+
+  --color-success: hsl(152, 68%, 32%);
+  --color-success-text: hsl(152, 70%, 28%);
+  --color-warning: hsl(32, 92%, 40%);
+  --color-warning-text: hsl(32, 90%, 34%);
+  --color-error: hsl(355, 72%, 46%);
+  --color-error-text: hsl(355, 72%, 42%);
+  --color-info: hsl(199, 89%, 36%);
+
+  --color-lineage-table: hsl(199, 89%, 36%);
+  --color-lineage-view: hsl(210, 78%, 40%);
+  --color-lineage-cte: hsl(270, 65%, 48%);
+  --color-lineage-subquery: hsl(36, 90%, 36%);
+  --color-lineage-final: hsl(142, 68%, 30%);
+  --color-lineage-window: hsl(175, 68%, 32%);
+  --color-lineage-set: hsl(20, 78%, 42%);
+
+  --color-backdrop: hsla(220, 22%, 12%, 0.45);
+  --color-glass-bg: hsla(0, 0%, 100%, 0.92);
+  --shadow-sm: 0 1px 3px hsla(220, 20%, 15%, 0.08), 0 1px 2px hsla(220, 20%, 15%, 0.05);
+  --shadow-md: 0 4px 12px hsla(220, 20%, 15%, 0.1), 0 2px 4px hsla(220, 20%, 15%, 0.06);
+  --shadow-lg: 0 20px 40px -10px hsla(220, 20%, 15%, 0.18), 0 4px 12px hsla(220, 20%, 15%, 0.08);
 }

@@ -16,7 +16,7 @@
   height: 38px;
   background-color: var(--color-surface-raised);
   border-bottom: 1px solid var(--color-border-subtle);
-  font-size: 0.82rem;
+  font-size: var(--font-size-sm);
   font-weight: 600;
   color: var(--color-text-primary);
   user-select: none;
@@ -29,22 +29,34 @@
   gap: var(--space-2);
 }
 
+.brandIcon {
+  color: var(--color-brand-400);
+  flex-shrink: 0;
+}
+
 .closeBtn {
   background: transparent;
   border: none;
   color: var(--color-text-muted);
   cursor: pointer;
-  padding: 4px;
+  padding: var(--space-1);
   border-radius: var(--radius-sm);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all var(--duration-fast);
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
 }
 
 .closeBtn:hover {
   background-color: var(--color-surface-overlay);
   color: var(--color-text-primary);
+}
+
+.closeBtn:focus-visible {
+  outline: 2px solid var(--color-brand-400);
+  outline-offset: 2px;
 }
 
 .scrollArea {
@@ -91,32 +103,54 @@
 
 /* Badge variants */
 .typeBadge.table {
-  background-color: rgba(56, 189, 248, 0.15);
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  background-color: color-mix(in srgb, var(--color-lineage-table) 15%, transparent);
+  color: var(--color-lineage-table);
+  border: 1px solid color-mix(in srgb, var(--color-lineage-table) 35%, transparent);
+}
+
+.typeBadge.view {
+  background-color: color-mix(in srgb, var(--color-lineage-view) 15%, transparent);
+  color: var(--color-lineage-view);
+  border: 1px solid color-mix(in srgb, var(--color-lineage-view) 35%, transparent);
 }
 
 .typeBadge.cte {
-  background-color: rgba(168, 85, 247, 0.15);
-  color: #c084fc;
-  border: 1px solid rgba(168, 85, 247, 0.3);
+  background-color: color-mix(in srgb, var(--color-lineage-cte) 15%, transparent);
+  color: var(--color-lineage-cte);
+  border: 1px solid color-mix(in srgb, var(--color-lineage-cte) 35%, transparent);
 }
 
 .typeBadge.subquery {
-  background-color: rgba(234, 179, 8, 0.15);
-  color: #facc15;
-  border: 1px solid rgba(234, 179, 8, 0.3);
+  background-color: color-mix(in srgb, var(--color-lineage-subquery) 15%, transparent);
+  color: var(--color-lineage-subquery);
+  border: 1px solid color-mix(in srgb, var(--color-lineage-subquery) 35%, transparent);
 }
 
 .typeBadge.final_select {
-  background-color: rgba(34, 197, 94, 0.15);
-  color: #4ade80;
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  background-color: color-mix(in srgb, var(--color-lineage-final) 15%, transparent);
+  color: var(--color-lineage-final);
+  border: 1px solid color-mix(in srgb, var(--color-lineage-final) 35%, transparent);
+}
+
+.typeBadge.window_function {
+  background-color: color-mix(in srgb, var(--color-lineage-window) 15%, transparent);
+  color: var(--color-lineage-window);
+  border: 1px solid color-mix(in srgb, var(--color-lineage-window) 35%, transparent);
+}
+
+.typeBadge.set_operation {
+  background-color: color-mix(in srgb, var(--color-lineage-set) 15%, transparent);
+  color: var(--color-lineage-set);
+  border: 1px solid color-mix(in srgb, var(--color-lineage-set) 35%, transparent);
 }
 
 .nodeSubtext {
-  font-size: 0.75rem;
+  font-size: var(--font-size-xs);
   color: var(--color-text-muted);
+}
+
+.monoText {
+  font-family: var(--font-mono);
 }
 
 .section {
@@ -139,13 +173,13 @@
 .columnsList {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 .columnRow {
   display: flex;
   flex-direction: column;
-  padding: 6px 8px;
+  padding: 6px var(--space-2);
   background-color: var(--color-surface-raised);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-sm);
@@ -176,31 +210,38 @@
   color: var(--color-brand-400);
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 .depList {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 .depItem {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 8px;
+  padding: 6px var(--space-2);
   background-color: var(--color-surface-sunken);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-sm);
   font-size: 0.78rem;
   cursor: pointer;
-  transition: all var(--duration-fast);
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
 }
 
 .depItem:hover {
   background-color: var(--color-surface-overlay);
   border-color: var(--color-brand-400);
+}
+
+.depItem:focus-visible {
+  outline: 2px solid var(--color-brand-400);
+  outline-offset: 1px;
 }
 
 .depName {
@@ -221,7 +262,7 @@
 
 .emptyIcon {
   color: var(--color-text-muted);
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 .emptyTitle {
@@ -246,7 +287,7 @@
   background-color: var(--color-surface-raised);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-sm);
-  padding: 8px 10px;
+  padding: var(--space-2) 10px;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -268,7 +309,7 @@
   background-color: var(--color-surface-sunken);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-sm);
-  padding: 8px;
+  padding: var(--space-2);
   font-family: var(--font-mono);
   font-size: 0.72rem;
   color: var(--color-text-secondary);
@@ -280,27 +321,35 @@
 
 .erdActions {
   display: flex;
-  gap: 8px;
-  margin-top: 12px;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
 }
 
 .actionBtn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
-  font-size: 0.75rem;
+  padding: 6px var(--space-3);
+  font-size: var(--font-size-xs);
   font-weight: 500;
   border-radius: var(--radius-sm);
   background-color: var(--color-surface-overlay);
   border: 1px solid var(--color-border-subtle);
   color: var(--color-text-primary);
   cursor: pointer;
-  transition: all var(--duration-fast);
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
 }
 
 .actionBtn:hover {
-  background-color: rgba(99, 102, 241, 0.1);
+  background-color: color-mix(in srgb, var(--color-brand-500) 12%, transparent);
   border-color: var(--color-brand-400);
   color: var(--color-brand-400);
+}
+
+.actionBtn:focus-visible {
+  outline: 2px solid var(--color-brand-400);
+  outline-offset: 2px;
 }

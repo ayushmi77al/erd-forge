@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { useSdlStore } from '@/stores/sdlStore';
-import { SDLParser } from '@/parsers/sdl/SDLParser';
+import { beforeEach, describe, expect, it } from "vitest";
+import { SDLParser } from "@/parsers/sdl/SDLParser";
+import { useSdlStore } from "@/stores/sdlStore";
 
-describe('sdlStore View Preservation and Error Handling', () => {
+describe("sdlStore View Preservation and Error Handling", () => {
   beforeEach(() => {
     // Reset store to initial state
     const initialText = `Table users {\n  id integer [pk]\n}\n\nTable posts {\n  id integer [pk]\n}\n`;
@@ -17,7 +17,7 @@ describe('sdlStore View Preservation and Error Handling', () => {
     });
   });
 
-  it('keeps valid diagram view active when user starts typing an incomplete new table', () => {
+  it("keeps valid diagram view active when user starts typing an incomplete new table", () => {
     const store = useSdlStore.getState();
     expect(store.ast?.statements).toHaveLength(2);
 
@@ -36,8 +36,8 @@ describe('sdlStore View Preservation and Error Handling', () => {
     // 1. Diagram MUST NOT vanish! Users and posts are still present
     expect(updated.ast).not.toBeNull();
     const tableNames = updated.ast?.statements.map((s: any) => s.name);
-    expect(tableNames).toContain('users');
-    expect(tableNames).toContain('posts');
+    expect(tableNames).toContain("users");
+    expect(tableNames).toContain("posts");
 
     // 2. Error is recorded with line number
     expect(updated.errors.length).toBeGreaterThan(0);
@@ -45,7 +45,7 @@ describe('sdlStore View Preservation and Error Handling', () => {
     expect(updated.isStale).toBe(true);
   });
 
-  it('updates diagram and clears error when user completes the new table', () => {
+  it("updates diagram and clears error when user completes the new table", () => {
     // 1. Incomplete state
     const draftText = `Table users {\n  id integer [pk]\n}\n\nTable comments {\n  id integer`;
     const incompleteResult = SDLParser.parse(draftText);
@@ -63,11 +63,11 @@ describe('sdlStore View Preservation and Error Handling', () => {
     expect(finalState.error).toBeNull();
 
     const tableNames = finalState.ast?.statements.map((s: any) => s.name);
-    expect(tableNames).toContain('users');
-    expect(tableNames).toContain('comments');
+    expect(tableNames).toContain("users");
+    expect(tableNames).toContain("comments");
   });
 
-  it('preserves an existing table definition when user makes a temporary typo inside it', () => {
+  it("preserves an existing table definition when user makes a temporary typo inside it", () => {
     const store = useSdlStore.getState();
     expect(store.ast?.statements).toHaveLength(2);
 
@@ -82,8 +82,8 @@ describe('sdlStore View Preservation and Error Handling', () => {
     // posts table was preserved from lastValidAst because Table posts still exists in draft text
     expect(updated.ast).not.toBeNull();
     const tableNames = updated.ast?.statements.map((s: any) => s.name);
-    expect(tableNames).toContain('users');
-    expect(tableNames).toContain('posts');
+    expect(tableNames).toContain("users");
+    expect(tableNames).toContain("posts");
     expect(updated.isStale).toBe(true);
     expect(updated.errors[0]?.line).toBe(6);
   });

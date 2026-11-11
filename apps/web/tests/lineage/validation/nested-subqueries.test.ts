@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
-import { parseSQLLineage } from '@/lineage/parser/sqlLineageParser';
+import { describe, expect, it } from "vitest";
+import { parseSQLLineage } from "@/lineage/parser/sqlLineageParser";
 
-describe('Derived Tables & Nested Subqueries', () => {
-  it('5.1 correctly parses derived table in FROM clause with column lineage', () => {
+describe("Derived Tables & Nested Subqueries", () => {
+  it("5.1 correctly parses derived table in FROM clause with column lineage", () => {
     const sql = `
       SELECT sub.category, sub.total_sales
       FROM (
@@ -15,17 +15,17 @@ describe('Derived Tables & Nested Subqueries', () => {
     const res = parseSQLLineage(sql);
     expect(res.errors).toHaveLength(0);
 
-    const subqueryNode = res.graph?.nodes.find((n) => n.type === 'SUBQUERY');
+    const subqueryNode = res.graph?.nodes.find((n) => n.type === "SUBQUERY");
     expect(subqueryNode).toBeDefined();
-    expect(subqueryNode?.columns.some((c) => c.name === 'total_sales')).toBe(true);
-    expect(subqueryNode?.columns.some((c) => c.name === 'category')).toBe(true);
+    expect(subqueryNode?.columns.some((c) => c.name === "total_sales")).toBe(true);
+    expect(subqueryNode?.columns.some((c) => c.name === "category")).toBe(true);
 
     const edgeToSub = res.graph?.edges.find((e) => e.target === subqueryNode?.id);
-    expect(edgeToSub?.source).toBe('table_sales_records');
+    expect(edgeToSub?.source).toBe("table_sales_records");
     expect(edgeToSub?.columnLineage?.length).toBeGreaterThan(0);
   });
 
-  it('5.2 handles derived table with internal WHERE clause', () => {
+  it("5.2 handles derived table with internal WHERE clause", () => {
     const sql = `
       SELECT o.order_id
       FROM (
@@ -36,7 +36,7 @@ describe('Derived Tables & Nested Subqueries', () => {
     const res = parseSQLLineage(sql);
     expect(res.errors).toHaveLength(0);
 
-    const rawNode = res.graph?.nodes.find((n) => n.id === 'table_raw_orders');
-    expect(rawNode?.columns.some((c) => c.name === 'is_deleted')).toBe(true);
+    const rawNode = res.graph?.nodes.find((n) => n.id === "table_raw_orders");
+    expect(rawNode?.columns.some((c) => c.name === "is_deleted")).toBe(true);
   });
 });

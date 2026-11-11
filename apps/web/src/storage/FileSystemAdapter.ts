@@ -21,23 +21,23 @@ export class FileSystemAdapter {
     const handles = await window.showOpenFilePicker({
       types: [
         {
-          description: 'ERD Forge Project',
+          description: "ERD Forge Project",
           accept: {
-            'application/json': ['.erdforge'],
+            "application/json": [".erdforge"],
           },
         },
       ],
     });
-    
+
     if (!handles || handles.length === 0) {
       throw new Error("No file selected");
     }
-    
+
     const handle = handles[0];
     if (!handle) {
       throw new Error("No file selected");
     }
-    
+
     this.fileHandle = handle;
     const file = await handle.getFile();
     return await file.text();
@@ -48,9 +48,9 @@ export class FileSystemAdapter {
       const handle = await window.showSaveFilePicker({
         types: [
           {
-            description: 'ERD Forge Project',
+            description: "ERD Forge Project",
             accept: {
-              'application/json': ['.erdforge'],
+              "application/json": [".erdforge"],
             },
           },
         ],
@@ -66,4 +66,3 @@ export class FileSystemAdapter {
     await writable.close();
   }
 }
-

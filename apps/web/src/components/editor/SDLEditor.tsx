@@ -1,14 +1,28 @@
-import React, { useRef, useEffect, useCallback } from 'react';
-import { EditorState, Transaction } from '@codemirror/state';
-import { EditorView, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, drawSelection, dropCursor, rectangularSelection, crosshairCursor, highlightActiveLine, keymap } from '@codemirror/view';
-import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
-import { syntaxHighlighting, defaultHighlightStyle, bracketMatching } from '@codemirror/language';
-import { lintGutter } from '@codemirror/lint';
-import { AlertCircle, CheckCircle2, CornerDownRight } from 'lucide-react';
-import { sdlAutocomplete } from './sdl-language/autocomplete';
-import { sdlLinter } from './sdl-language/linter';
-import { useSdlStore } from '../../stores/sdlStore';
-import styles from './SDLEditor.module.css';
+import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
+import { bracketMatching, defaultHighlightStyle, syntaxHighlighting } from "@codemirror/language";
+import { lintGutter } from "@codemirror/lint";
+import { Compartment, EditorState, Transaction } from "@codemirror/state";
+import {
+  crosshairCursor,
+  drawSelection,
+  dropCursor,
+  EditorView,
+  highlightActiveLine,
+  highlightActiveLineGutter,
+  highlightSpecialChars,
+  keymap,
+  lineNumbers,
+  rectangularSelection,
+} from "@codemirror/view";
+import { AlertCircle, CheckCircle2, CornerDownRight } from "lucide-react";
+import type React from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { useSdlStore } from "../../stores/sdlStore";
+import { resolveTheme, useUIStore } from "../../stores/uiStore";
+import { createEditorTheme } from "./editorTheme";
+import styles from "./SDLEditor.module.css";
+import { sdlAutocomplete } from "./sdl-language/autocomplete";
+import { sdlLinter } from "./sdl-language/linter";
 
 interface SDLEditorProps {
   value: string;
@@ -18,11 +32,16 @@ interface SDLEditorProps {
 export const SDLEditor: React.FC<SDLEditorProps> = ({ value, onChange }) => {
   const editorRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
+  const themeCompartmentRef = useRef(new Compartment());
   const onChangeRef = useRef(onChange);
+  const initialValueRef = useRef(value);
   const isExternalUpdate = useRef(false);
 
   const errors = useSdlStore((s) => s.errors);
   const primaryError = errors[0] ?? null;
+  const theme = useUIStore((s) => s.theme);
+  const isDark = resolveTheme(theme) === "dark";
+  const initialDarkRef = useRef(isDark);
 
   useEffect(() => {
     onChangeRef.current = onChange;
@@ -30,9 +49,10 @@ export const SDLEditor: React.FC<SDLEditorProps> = ({ value, onChange }) => {
 
   useEffect(() => {
     if (!editorRef.current) return;
+    const themeCompartment = themeCompartmentRef.current;
 
     const state = EditorState.create({
-      doc: value,
+      doc: initialValueRef.current,
       extensions: [
         lineNumbers(),
         highlightActiveLineGutter(),
@@ -49,41 +69,13 @@ export const SDLEditor: React.FC<SDLEditorProps> = ({ value, onChange }) => {
         sdlAutocomplete(),
         sdlLinter(),
         lintGutter(),
-        keymap.of([
-          ...defaultKeymap,
-          ...historyKeymap,
-        ]),
+        keymap.of([...defaultKeymap, ...historyKeymap]),
         EditorView.updateListener.of((update) => {
           if (update.docChanged && !isExternalUpdate.current) {
             onChangeRef.current(update.state.doc.toString());
           }
         }),
-        EditorView.theme({
-          "&": {
-            height: "100%",
-            backgroundColor: "transparent",
-            color: "var(--color-text-primary)",
-          },
-          ".cm-gutters": {
-            backgroundColor: "var(--color-surface-raised)",
-            color: "var(--color-text-muted)",
-            border: "none",
-            borderRight: "1px solid var(--color-border-subtle)",
-          },
-          ".cm-activeLineGutter": {
-            backgroundColor: "var(--color-surface-overlay)",
-          },
-          "&.cm-focused .cm-cursor": {
-            borderLeftColor: "var(--color-brand-400)",
-          },
-          "&.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground, .cm-selectionBackground, &.cm-focused .cm-selectionBackground": {
-            backgroundColor: "rgba(99, 102, 241, 0.35) !important",
-          },
-          "::selection, .cm-content ::selection": {
-            backgroundColor: "rgba(99, 102, 241, 0.35) !important",
-            color: "#ffffff !important",
-          },
-        }, { dark: true })
+        themeCompartment.of(createEditorTheme({ dark: initialDarkRef.current })),
       ],
     });
 
@@ -98,8 +90,16 @@ export const SDLEditor: React.FC<SDLEditorProps> = ({ value, onChange }) => {
       view.destroy();
       viewRef.current = null;
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Reconfigure CodeMirror base theme when dark/light mode changes
+  useEffect(() => {
+    const view = viewRef.current;
+    if (!view) return;
+    view.dispatch({
+      effects: themeCompartmentRef.current.reconfigure(createEditorTheme({ dark: isDark })),
+    });
+  }, [isDark]);
 
   // Sync external value changes into CodeMirror
   useEffect(() => {
@@ -147,12 +147,12 @@ export const SDLEditor: React.FC<SDLEditorProps> = ({ value, onChange }) => {
         <div className={styles.headerRight}>
           {primaryError ? (
             <span className={styles.errorBadgeHeader} title={primaryError.message}>
-              <AlertCircle size={12} />
+              <AlertCircle size={12} aria-hidden="true" />
               Line {primaryError.line} Error
             </span>
           ) : (
             <span className={styles.validBadge}>
-              <CheckCircle2 size={12} />
+              <CheckCircle2 size={12} aria-hidden="true" />
               Valid
             </span>
           )}
@@ -166,27 +166,27 @@ export const SDLEditor: React.FC<SDLEditorProps> = ({ value, onChange }) => {
           title="Click to jump to error line in editor"
           role="button"
           tabIndex={0}
+          aria-label={`Jump to SDL error on line ${primaryError.line}`}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
+            if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
               handleJumpToError();
             }
           }}
         >
           <div className={styles.errorBadge}>
-            <AlertCircle size={12} />
+            <AlertCircle size={12} aria-hidden="true" />
             <span>Line {primaryError.line}</span>
           </div>
           <span className={styles.errorMessage}>{primaryError.message}</span>
           <span className={styles.jumpHint}>
-            <CornerDownRight size={11} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 2 }} />
+            <CornerDownRight size={11} className={styles.jumpIcon} aria-hidden="true" />
             Jump
           </span>
         </div>
       )}
 
-      <div className={styles.editorWrapper} ref={editorRef} />
+      <div className={styles.editorWrapper} ref={editorRef} aria-label="SDL schema source editor" />
     </div>
   );
 };
-

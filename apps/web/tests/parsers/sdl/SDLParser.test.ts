@@ -1,20 +1,20 @@
-import { describe, it, expect } from 'vitest';
-import { SDLParser } from '@/parsers/sdl/SDLParser';
+import { describe, expect, it } from "vitest";
+import { SDLParser } from "@/parsers/sdl/SDLParser";
 
-describe('SDLParser', () => {
-  it('Test 1: Minimal table', () => {
-    const { ast, errors } = SDLParser.parse('Table T { ID int [pk] }');
+describe("SDLParser", () => {
+  it("Test 1: Minimal table", () => {
+    const { ast, errors } = SDLParser.parse("Table T { ID int [pk] }");
     expect(errors).toHaveLength(0);
     expect(ast?.statements).toHaveLength(1);
-    expect(ast?.statements[0]?.type).toBe('Table');
+    expect(ast?.statements[0]?.type).toBe("Table");
   });
 
-  it('Test 2: All column options', () => {
-    const { ast, errors } = SDLParser.parse('Table T { ID int [pk, unique, not null, default: 0, increment] }');
+  it("Test 2: All column options", () => {
+    const { ast, errors } = SDLParser.parse("Table T { ID int [pk, unique, not null, default: 0, increment] }");
     expect(errors).toHaveLength(0);
   });
 
-  it('Test 3: FK reference variants', () => {
+  it("Test 3: FK reference variants", () => {
     const text = `
       Table A { BID int [ref: > B.ID] }
       Table A { BID int [ref: < B.ID] }
@@ -25,12 +25,12 @@ describe('SDLParser', () => {
     expect(errors).toHaveLength(0);
   });
 
-  it('Test 4: Self-referencing', () => {
-    const { ast, errors } = SDLParser.parse('Table Category { ParentID int [ref: > Category.CategoryID] }');
+  it("Test 4: Self-referencing", () => {
+    const { ast, errors } = SDLParser.parse("Table Category { ParentID int [ref: > Category.CategoryID] }");
     expect(errors).toHaveLength(0);
   });
 
-  it('Test 5: Composite index', () => {
+  it("Test 5: Composite index", () => {
     const text = `
       Table T { 
         A int
@@ -42,7 +42,7 @@ describe('SDLParser', () => {
     expect(errors).toHaveLength(0);
   });
 
-  it('Test 6: Data types with length/precision', () => {
+  it("Test 6: Data types with length/precision", () => {
     const text = `
       Table T {
         A varchar(255)
@@ -55,27 +55,29 @@ describe('SDLParser', () => {
     expect(errors).toHaveLength(0);
   });
 
-  it('Test 7: Table metadata options', () => {
-    const { ast, errors } = SDLParser.parse('Table T [domain: Sales, owner: "John", status: approved, tags: ["a", "b"]] {\n  ID int [pk]\n}');
+  it("Test 7: Table metadata options", () => {
+    const { ast, errors } = SDLParser.parse(
+      'Table T [domain: Sales, owner: "John", status: approved, tags: ["a", "b"]] {\n  ID int [pk]\n}',
+    );
     expect(errors).toHaveLength(0);
   });
 
-  it('Test 8: View definition', () => {
-    const { ast, errors } = SDLParser.parse('View vw_Test { ColumnA varchar ColumnB }');
+  it("Test 8: View definition", () => {
+    const { ast, errors } = SDLParser.parse("View vw_Test { ColumnA varchar ColumnB }");
     expect(errors).toHaveLength(0);
   });
 
-  it('Test 9: Top-level Ref', () => {
-    const { ast, errors } = SDLParser.parse('Ref: A.ID > B.AID');
+  it("Test 9: Top-level Ref", () => {
+    const { ast, errors } = SDLParser.parse("Ref: A.ID > B.AID");
     expect(errors).toHaveLength(0);
   });
 
-  it('Test 10: Multi-line comment', () => {
-    const { ast, errors } = SDLParser.parse('/* This is a comment */ Table T { ID int [pk] }');
+  it("Test 10: Multi-line comment", () => {
+    const { ast, errors } = SDLParser.parse("/* This is a comment */ Table T { ID int [pk] }");
     expect(errors).toHaveLength(0);
   });
 
-  it('Test 11: Resilient parsing does not vanish valid tables when writing an incomplete table', () => {
+  it("Test 11: Resilient parsing does not vanish valid tables when writing an incomplete table", () => {
     const text = `
 Table users {
   id integer [pk]
@@ -100,11 +102,11 @@ Table comments {
     // The two valid tables MUST NOT vanish!
     expect(ast).not.toBeNull();
     const tableNames = ast?.statements.map((s: any) => s.name);
-    expect(tableNames).toContain('users');
-    expect(tableNames).toContain('posts');
+    expect(tableNames).toContain("users");
+    expect(tableNames).toContain("posts");
   });
 
-  it('Test 12: Broken statement in middle does not vanish surrounding tables', () => {
+  it("Test 12: Broken statement in middle does not vanish surrounding tables", () => {
     const text = `
 Table alpha {
   id integer [pk]
@@ -123,7 +125,7 @@ Table beta {
     expect(errors[0]!.line).toBe(7); // Broken line is line 7
     expect(ast).not.toBeNull();
     const tableNames = ast?.statements.map((s: any) => s.name);
-    expect(tableNames).toContain('alpha');
-    expect(tableNames).toContain('beta');
+    expect(tableNames).toContain("alpha");
+    expect(tableNames).toContain("beta");
   });
 });

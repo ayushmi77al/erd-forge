@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import { CommandManager } from '../core/commands/CommandManager';
+import { create } from "zustand";
+import type { CommandManager } from "../core/commands/CommandManager";
 
 interface HistoryState {
   canUndo: boolean;
@@ -20,10 +20,11 @@ export const useHistoryStore = create<HistorySlice>()((set) => ({
   undoDescription: null,
   redoDescription: null,
 
-  syncWithManager: (manager) => set({
-    canUndo: manager.canUndo,
-    canRedo: manager.canRedo,
-    undoDescription: manager.undoDescription,
-    redoDescription: manager.redoDescription,
-  })
+  syncWithManager: (manager) =>
+    set({
+      canUndo: manager.canUndo,
+      canRedo: manager.canRedo,
+      undoDescription: manager.undoDescription,
+      redoDescription: manager.redoDescription,
+    }),
 }));
