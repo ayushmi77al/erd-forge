@@ -150,4 +150,3 @@ export function computeRelationFocus(
 
   return { isFocused: false, activeEdgeIds, activeTableIds, highlightedColumnsByTable };
 }
-

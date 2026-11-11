@@ -74,4 +74,3 @@ describe("ERD relationship geometry & focus helpers", () => {
     expect(computeRelationFocus(edges, null, null).isFocused).toBe(false);
   });
 });
-
