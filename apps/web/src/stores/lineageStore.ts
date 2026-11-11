@@ -1,16 +1,12 @@
-import { create } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
-import { LineageGraph } from '../lineage/models/LineageGraph';
-import { parseSQLLineage } from '../lineage/parser/sqlLineageParser';
+import type { LineageGraph, ParseError, ParserEngine, SQLDialect } from "@erd-forge/lineage";
+import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
+import { getInitialParserEngine, persistParserEngine } from "../lineage/parser/parserFeatureFlag";
+import { parseSQLLineage } from "../lineage/parser/sqlLineageParser";
 
-export type SQLDialect = 'mssql' | 'postgresql' | 'mysql' | 'oracle' | 'sqlite' | 'bigquery' | 'redshift' | 'snowflake' | 'databricks';
-export type LineageViewMode = 'table' | 'column';
+export type { ParseError, ParserEngine, SQLDialect };
 
-export interface ParseError {
-  line?: number;
-  column?: number;
-  message: string;
-}
+export type LineageViewMode = "table" | "column";
 
 const DEFAULT_SAMPLE_SQL = `-- Multi-statement SQL Pipeline Demonstration
 WITH MonthlySales AS (
@@ -44,7 +40,7 @@ WHERE tc.rank <= 5;
 let initialGraph: LineageGraph | null = null;
 let initialErrors: ParseError[] = [];
 try {
-  const initResult = parseSQLLineage(DEFAULT_SAMPLE_SQL, 'mssql');
+  const initResult = parseSQLLineage(DEFAULT_SAMPLE_SQL, "mssql");
   initialGraph = initResult.graph;
   initialErrors = initResult.errors;
 } catch {
@@ -54,12 +50,13 @@ try {
 interface LineageState {
   sql: string;
   dialect: SQLDialect;
+  parserEngine: ParserEngine;
   graph: LineageGraph | null;
   parseErrors: ParseError[];
   isParsing: boolean;
   viewMode: LineageViewMode;
-  layoutDirection: 'LR' | 'TB';
-  cardDisplayMode: 'full' | 'compact';
+  layoutDirection: "LR" | "TB";
+  cardDisplayMode: "full" | "compact";
   isSQLEditorOpen: boolean;
   isInspectorOpen: boolean;
   activeSampleId: string | null;
@@ -71,12 +68,13 @@ interface LineageState {
 interface LineageActions {
   setSQL: (sql: string) => void;
   setDialect: (dialect: SQLDialect) => void;
+  setParserEngine: (engine: ParserEngine) => void;
   setGraph: (graph: LineageGraph | null) => void;
   setParseErrors: (errors: ParseError[]) => void;
   setIsParsing: (isParsing: boolean) => void;
   setViewMode: (mode: LineageViewMode) => void;
-  setLayoutDirection: (dir: 'LR' | 'TB') => void;
-  setCardDisplayMode: (mode: 'full' | 'compact') => void;
+  setLayoutDirection: (dir: "LR" | "TB") => void;
+  setCardDisplayMode: (mode: "full" | "compact") => void;
   toggleSQLEditor: () => void;
   toggleInspector: () => void;
   setSelectedNodeId: (id: string | null) => void;
@@ -92,16 +90,17 @@ export type LineageStore = LineageState & LineageActions;
 export const useLineageStore = create<LineageStore>()(
   immer((set) => ({
     sql: DEFAULT_SAMPLE_SQL,
-    dialect: 'mssql',
+    dialect: "mssql",
+    parserEngine: getInitialParserEngine(),
     graph: initialGraph,
     parseErrors: initialErrors,
     isParsing: false,
-    viewMode: 'table',
-    layoutDirection: 'LR',
-    cardDisplayMode: 'full',
+    viewMode: "table",
+    layoutDirection: "LR",
+    cardDisplayMode: "full",
     isSQLEditorOpen: true,
     isInspectorOpen: true,
-    activeSampleId: 'ecommerce-cte',
+    activeSampleId: "ecommerce-cte",
     selectedNodeId: null,
     nodePositions: {},
     layoutEpoch: 0,
@@ -114,6 +113,12 @@ export const useLineageStore = create<LineageStore>()(
     setDialect: (dialect) =>
       set((state) => {
         state.dialect = dialect;
+      }),
+
+    setParserEngine: (engine) =>
+      set((state) => {
+        state.parserEngine = engine;
+        persistParserEngine(engine);
       }),
 
     setGraph: (graph) =>
@@ -188,5 +193,5 @@ export const useLineageStore = create<LineageStore>()(
         state.parseErrors = [];
         state.nodePositions = {};
       }),
-  }))
+  })),
 );

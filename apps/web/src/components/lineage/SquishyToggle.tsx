@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import styles from './SquishyToggle.module.css';
+import type React from "react";
+import { useState } from "react";
+import styles from "./SquishyToggle.module.css";
 
 export interface SquishyOption<T extends string> {
   value: T;
@@ -15,24 +16,19 @@ export interface SquishyToggleProps<T extends string> {
   ariaLabel?: string;
 }
 
-export function SquishyToggle<T extends string>({
-  options,
-  value,
-  onChange,
-  ariaLabel,
-}: SquishyToggleProps<T>) {
+export function SquishyToggle<T extends string>({ options, value, onChange, ariaLabel }: SquishyToggleProps<T>) {
   const [pressedIndex, setPressedIndex] = useState<number | null>(null);
   const selectedIndex = options.findIndex((opt) => opt.value === value);
   const isRight = selectedIndex === 1;
 
-  let pressClass = '';
+  let pressClass = "";
   if (pressedIndex !== null) {
     if (pressedIndex === selectedIndex) {
-      pressClass = styles.isPressedSame || '';
+      pressClass = styles.isPressedSame || "";
     } else if (pressedIndex === 1) {
-      pressClass = styles.isPressedRight || '';
+      pressClass = styles.isPressedRight || "";
     } else {
-      pressClass = styles.isPressedLeft || '';
+      pressClass = styles.isPressedLeft || "";
     }
   }
 
@@ -53,10 +49,10 @@ export function SquishyToggle<T extends string>({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowLeft' && options[0]) {
+    if (e.key === "ArrowLeft" && options[0]) {
       e.preventDefault();
       onChange(options[0].value);
-    } else if (e.key === 'ArrowRight' && options[1]) {
+    } else if (e.key === "ArrowRight" && options[1]) {
       e.preventDefault();
       onChange(options[1].value);
     }
@@ -64,7 +60,7 @@ export function SquishyToggle<T extends string>({
 
   return (
     <div
-      className={`${styles.toggle} ${isRight ? styles.isRight : ''} ${pressClass}`}
+      className={`${styles.toggle} ${isRight ? styles.isRight : ""} ${pressClass}`}
       role="group"
       aria-label={ariaLabel}
       onPointerLeave={handlePointerLeave}
@@ -78,7 +74,7 @@ export function SquishyToggle<T extends string>({
           <button
             key={opt.value}
             type="button"
-            className={`${styles.option} ${isOptSelected ? styles.active : ''}`}
+            className={`${styles.option} ${isOptSelected ? styles.active : ""}`}
             title={opt.title}
             aria-pressed={isOptSelected}
             onPointerDown={() => handlePointerDown(idx)}

@@ -1,5 +1,5 @@
-import { linter, Diagnostic } from '@codemirror/lint';
-import { SDLParser } from '../../../parsers/sdl/SDLParser';
+import { type Diagnostic, linter } from "@codemirror/lint";
+import { SDLParser } from "../../../parsers/sdl/SDLParser";
 
 export const sdlLinter = () =>
   linter(
@@ -38,14 +38,13 @@ export const sdlLinter = () =>
         diagnostics.push({
           from,
           to: Math.max(from + 1, to),
-          severity: 'error',
+          severity: "error",
           message: `Line ${err.line}: ${err.message}`,
-          source: 'SDL',
+          source: "SDL",
         });
       }
 
       return diagnostics;
     },
-    { delay: 250 }
+    { delay: 250 },
   );
-

@@ -1,18 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { 
-  X, 
-  Upload, 
-  Database, 
-  FileCode, 
-  Sparkles, 
-  Trash2, 
-  Layers,
-  ArrowRight
-} from 'lucide-react';
-import { useUIStore } from '../../stores/uiStore';
-import { useSdlStore } from '../../stores/sdlStore';
-import { parseSqlToSdl, detectSqlStats } from '../../parsers/sql/sqlToSdl';
-import styles from './ImportModal.module.css';
+import { ArrowRight, Database, FileCode, Layers, Sparkles, Trash2, X } from "lucide-react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
+import { detectSqlStats, parseSqlToSdl } from "../../parsers/sql/sqlToSdl";
+import { useSdlStore } from "../../stores/sdlStore";
+import { useUIStore } from "../../stores/uiStore";
+import styles from "./ImportModal.module.css";
 
 const ECOMMERCE_SAMPLE = `-- E-Commerce Sample Schema
 CREATE TABLE users (
@@ -103,20 +95,22 @@ export const ImportModal: React.FC = () => {
   const { sdlText, setSdlText } = useSdlStore();
 
   const [sqlContent, setSqlContent] = useState(ECOMMERCE_SAMPLE);
-  const [importMode, setImportMode] = useState<'replace' | 'append'>('replace');
+  const [importMode, setImportMode] = useState<"replace" | "append">("replace");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
-  // Close on Escape
+  // Focus modal on mount & close on Escape
   useEffect(() => {
+    modalRef.current?.focus();
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setActiveModal(null);
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [setActiveModal]);
 
   // Live detection of tables & refs
@@ -136,7 +130,7 @@ export const ImportModal: React.FC = () => {
     };
     reader.readAsText(file);
     // Reset file input so user can pick same file again if desired
-    e.target.value = '';
+    e.target.value = "";
   };
 
   const triggerAutoLayout = useUIStore((s) => s.triggerAutoLayout);
@@ -151,11 +145,11 @@ export const ImportModal: React.FC = () => {
     }
 
     if (result.tables.length === 0) {
-      setErrorMessage('No valid CREATE TABLE statements detected in SQL content.');
+      setErrorMessage("No valid CREATE TABLE statements detected in SQL content.");
       return;
     }
 
-    if (importMode === 'replace') {
+    if (importMode === "replace") {
       setSdlText(result.sdl);
     } else {
       const current = sdlText.trim();
@@ -165,16 +159,18 @@ export const ImportModal: React.FC = () => {
 
     // Auto-arrange the imported tables once parsed
     setTimeout(() => {
-      triggerAutoLayout('LR');
+      triggerAutoLayout("LR");
     }, 400);
 
     setActiveModal(null);
   };
 
   return (
-    <div className={styles.backdrop} onClick={() => setActiveModal(null)}>
-      <div 
-        className={styles.modal} 
+    <div className={styles.backdrop} role="presentation" onClick={() => setActiveModal(null)}>
+      <div
+        ref={modalRef}
+        tabIndex={-1}
+        className={styles.modal}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -184,20 +180,25 @@ export const ImportModal: React.FC = () => {
         <div className={styles.header}>
           <div className={styles.headerLeft}>
             <div className={styles.headerIconWrapper}>
-              <Database size={20} />
+              <Database size={20} aria-hidden="true" />
             </div>
             <div>
-              <h2 id="import-modal-title" className={styles.title}>Import SQL DDL</h2>
-              <p className={styles.subtitle}>Convert raw PostgreSQL, MySQL, SQLite, or SQL Server DDL into ERD schema</p>
+              <h2 id="import-modal-title" className={styles.title}>
+                Import SQL DDL
+              </h2>
+              <p className={styles.subtitle}>
+                Convert raw PostgreSQL, MySQL, SQLite, or SQL Server DDL into ERD schema
+              </p>
             </div>
           </div>
-          <button 
-            className={styles.closeButton} 
+          <button
+            type="button"
+            className={styles.closeButton}
             onClick={() => setActiveModal(null)}
             title="Close modal (Esc)"
             aria-label="Close modal"
           >
-            <X size={18} />
+            <X size={18} aria-hidden="true" />
           </button>
         </div>
 
@@ -206,28 +207,37 @@ export const ImportModal: React.FC = () => {
           {/* Preset Samples */}
           <div className={styles.presetBar}>
             <span className={styles.presetLabel}>Quick Presets:</span>
-            <button 
-              type="button" 
+            <button
+              type="button"
               className={styles.presetButton}
-              onClick={() => { setSqlContent(ECOMMERCE_SAMPLE); setErrorMessage(null); }}
+              onClick={() => {
+                setSqlContent(ECOMMERCE_SAMPLE);
+                setErrorMessage(null);
+              }}
             >
-              <Sparkles size={13} /> E-Commerce (5 tables)
+              <Sparkles size={13} aria-hidden="true" /> E-Commerce (5 tables)
             </button>
-            <button 
-              type="button" 
+            <button
+              type="button"
               className={styles.presetButton}
-              onClick={() => { setSqlContent(BLOG_SAMPLE); setErrorMessage(null); }}
+              onClick={() => {
+                setSqlContent(BLOG_SAMPLE);
+                setErrorMessage(null);
+              }}
             >
-              <Sparkles size={13} /> Blog & CMS (5 tables)
+              <Sparkles size={13} aria-hidden="true" /> Blog & CMS (5 tables)
             </button>
             {sqlContent && (
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className={styles.clearButton}
-                onClick={() => { setSqlContent(''); setErrorMessage(null); }}
+                onClick={() => {
+                  setSqlContent("");
+                  setErrorMessage(null);
+                }}
                 title="Clear input"
               >
-                <Trash2 size={13} /> Clear
+                <Trash2 size={13} aria-hidden="true" /> Clear
               </button>
             )}
           </div>
@@ -235,21 +245,20 @@ export const ImportModal: React.FC = () => {
           {/* File Upload Zone */}
           <div className={styles.uploadZone}>
             <div className={styles.uploadZoneText}>
-              <FileCode size={18} color="var(--color-brand-400)" />
-              <span>Upload a <code>.sql</code> or <code>.ddl</code> file from your machine</span>
+              <FileCode size={18} className={styles.uploadIcon} aria-hidden="true" />
+              <span>
+                Upload a <code>.sql</code> or <code>.ddl</code> file from your machine
+              </span>
             </div>
-            <input 
+            <input
               ref={fileInputRef}
-              type="file" 
-              accept=".sql,.ddl,.txt" 
+              type="file"
+              accept=".sql,.ddl,.txt"
               className={styles.uploadInput}
+              aria-label="Upload SQL or DDL file"
               onChange={handleFileUpload}
             />
-            <button 
-              type="button" 
-              className={styles.fileButton}
-              onClick={() => fileInputRef.current?.click()}
-            >
+            <button type="button" className={styles.fileButton} onClick={() => fileInputRef.current?.click()}>
               Browse File...
             </button>
           </div>
@@ -260,7 +269,7 @@ export const ImportModal: React.FC = () => {
               <span>Paste SQL Statements:</span>
               <span>Supports CREATE TABLE, PRIMARY KEY, FOREIGN KEY, REFERENCES</span>
             </div>
-            <textarea 
+            <textarea
               className={styles.sqlTextarea}
               value={sqlContent}
               onChange={(e) => {
@@ -279,11 +288,11 @@ export const ImportModal: React.FC = () => {
                 <>
                   <span className={styles.statBadge}>
                     <span className={styles.statDot} />
-                    {stats.tableCount} {stats.tableCount === 1 ? 'Table' : 'Tables'} Detected
+                    {stats.tableCount} {stats.tableCount === 1 ? "Table" : "Tables"} Detected
                   </span>
-                  <span className={styles.statBadge} style={{ color: 'var(--color-text-secondary)' }}>
-                    <Layers size={13} />
-                    {stats.refCount} Foreign Key {stats.refCount === 1 ? 'Relation' : 'Relations'}
+                  <span className={`${styles.statBadge} ${styles.statBadgeSecondary}`}>
+                    <Layers size={13} aria-hidden="true" />
+                    {stats.refCount} Foreign Key {stats.refCount === 1 ? "Relation" : "Relations"}
                   </span>
                 </>
               ) : (
@@ -297,17 +306,17 @@ export const ImportModal: React.FC = () => {
             <div className={styles.modeWrapper}>
               <span className={styles.modeLabel}>Strategy:</span>
               <div className={styles.modeOptions}>
-                <button 
+                <button
                   type="button"
-                  className={`${styles.modeButton} ${importMode === 'replace' ? styles.modeButtonActive : ''}`}
-                  onClick={() => setImportMode('replace')}
+                  className={`${styles.modeButton} ${importMode === "replace" ? styles.modeButtonActive : ""}`}
+                  onClick={() => setImportMode("replace")}
                 >
                   Replace
                 </button>
-                <button 
+                <button
                   type="button"
-                  className={`${styles.modeButton} ${importMode === 'append' ? styles.modeButtonActive : ''}`}
-                  onClick={() => setImportMode('append')}
+                  className={`${styles.modeButton} ${importMode === "append" ? styles.modeButtonActive : ""}`}
+                  onClick={() => setImportMode("append")}
                 >
                   Append
                 </button>
@@ -316,14 +325,7 @@ export const ImportModal: React.FC = () => {
           </div>
 
           {errorMessage && (
-            <div style={{
-              padding: '8px 12px',
-              backgroundColor: 'rgba(239, 68, 68, 0.15)',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              borderRadius: '6px',
-              color: '#f87171',
-              fontSize: '0.82rem',
-            }}>
+            <div className={styles.errorAlert} role="alert">
               {errorMessage}
             </div>
           )}
@@ -331,21 +333,17 @@ export const ImportModal: React.FC = () => {
 
         {/* Footer */}
         <div className={styles.footer}>
-          <button 
-            type="button" 
-            className={styles.cancelButton}
-            onClick={() => setActiveModal(null)}
-          >
+          <button type="button" className={styles.cancelButton} onClick={() => setActiveModal(null)}>
             Cancel
           </button>
-          <button 
-            type="button" 
+          <button
+            type="button"
             className={styles.importButton}
             onClick={handleImport}
             disabled={stats.tableCount === 0}
           >
             <span>Import to Canvas</span>
-            <ArrowRight size={16} />
+            <ArrowRight size={16} aria-hidden="true" />
           </button>
         </div>
       </div>

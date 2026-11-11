@@ -1,5 +1,5 @@
-import { expose } from 'comlink';
-import { SDLParser } from '../parsers/sdl/SDLParser';
+import { expose } from "comlink";
+import { SDLParser } from "../parsers/sdl/SDLParser";
 
 const api = {
   parseSDL(text: string) {

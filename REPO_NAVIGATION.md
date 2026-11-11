@@ -48,12 +48,16 @@ Area51/
 │   ├── rules/
 │   │   ├── coding-standards.md             # Enforced architectural & coding conventions
 │   │   ├── devlog-tracking.md              # Rule for recording development changes
-│   │   └── graphify.md                     # Knowledge graph integration rule
+│   │   ├── graphify.md                     # Knowledge graph integration rule
+│   │   └── ui-ux-design-standards.md       # High-density, anti-slop, accessible UI/UX & token rules
 │   ├── skills/
 │   │   └── erd-forge-builder/
 │   │       └── SKILL.md                    # ERD Forge builder skill guide
 │   └── workflows/
-│       └── graphify.md                     # Graphify workflow configuration
+│       ├── design-new-page.md              # Workflow: Design new screen/modal with Mobbin & DevTools
+│       ├── graphify.md                     # Graphify workflow configuration
+│       ├── redesign-screen.md              # Workflow: Redesign existing component from shipped patterns
+│       └── ui-audit.md                     # Workflow: Comprehensive UI/UX, A11y & token audit
 ├── apps/
 │   └── web/                                # Frontend application (React 19, Vite, React Flow)
 │       ├── public/
@@ -62,6 +66,7 @@ Area51/
 │       │   ├── components/                 # Presentation & UI layer
 │       │   │   ├── canvas/                 # ERD Visual Canvas components
 │       │   │   │   ├── edges/
+│       │   │   │   │   ├── RelationEdge.module.css
 │       │   │   │   │   └── RelationEdge.tsx    # Smoothstep Bezier edge with cardinality badges
 │       │   │   │   ├── nodes/
 │       │   │   │   │   ├── TableNode.module.css
@@ -73,6 +78,7 @@ Area51/
 │       │   │   │   │   ├── autocomplete.ts # Keyword and entity autocompletion
 │       │   │   │   │   ├── highlight.ts    # Syntax highlighting rules
 │       │   │   │   │   └── linter.ts       # In-editor error checking & lint diagnostics
+│       │   │   │   ├── editorTheme.ts          # Tokenized shared CodeMirror 6 dark/light theme builder
 │       │   │   │   ├── ErrorPanel.module.css
 │       │   │   │   ├── ErrorPanel.tsx          # Collapsible SDL syntax error tray
 │       │   │   │   ├── SDLEditor.module.css
@@ -87,7 +93,9 @@ Area51/
 │       │   │   │   ├── Sidebar.module.css
 │       │   │   │   ├── Sidebar.tsx             # Data Catalog sidebar with search & table trees
 │       │   │   │   ├── StatusBar.module.css
-│       │   │   │   └── StatusBar.tsx           # Bottom status bar (zoom, table count, health)
+│       │   │   │   ├── StatusBar.tsx           # Bottom status bar (zoom, table count, health)
+│       │   │   │   ├── TabRevokedBanner.module.css
+│       │   │   │   └── TabRevokedBanner.tsx    # Read-only follower session notice banner
 │       │   │   ├── lineage/                # SQL Lineage Studio UI
 │       │   │   │   ├── nodes/
 │       │   │   │   │   ├── SqlLineageNode.module.css
@@ -205,6 +213,7 @@ Area51/
 │       │   ├── workers/                    # Web Workers for off-main-thread compute
 │       │   │   ├── lineage.worker.ts       # Background SQL lineage computation
 │       │   │   └── parser.worker.ts        # Background Peggy SDL parsing
+│       │   ├── App.module.css
 │       │   ├── App.tsx                     # Top-level application component with tab routing
 │       │   ├── main.tsx                    # Application entry point mounting to DOM
 │       │   └── vite-env.d.ts               # Vite environment types
@@ -265,6 +274,7 @@ Area51/
 │   ├── test-ast.js                         # AST inspection scratch script
 │   ├── test-ast.ts                         # TypeScript AST inspector
 │   └── test-parser.ts                      # Parser testing playground
+├── AGENTS.md                               # AI agent guidelines, architecture manual & workflow index
 ├── DEVLOG.md                               # Chronological engineering decision log
 ├── package.json                            # Monorepo root configuration & scripts
 ├── pnpm-lock.yaml                          # Exact dependency lockfile

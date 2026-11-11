@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import { SDLProgram } from '../types/sdl';
-import { SDLError } from './editorStore';
-import { SDLParser } from '../parsers/sdl/SDLParser';
+import { create } from "zustand";
+import { SDLParser } from "../parsers/sdl/SDLParser";
+import type { SDLProgram } from "../types/sdl";
+import type { SDLError } from "./editorStore";
 
 const initialSdlText = `Table users {\n  id integer [pk]\n  username varchar\n  created_at timestamp\n}\n\nTable posts {\n  id integer [pk]\n  title varchar\n  body text\n  user_id integer\n}\n\nRef: posts.user_id > users.id\n`;
 const initialParse = SDLParser.parse(initialSdlText);
@@ -53,9 +53,7 @@ export const useSdlStore = create<SdlState>((set, get) => ({
     if (result.ast && result.ast.statements.length > 0) {
       // Resilient parse found some valid statements
       const currentTableNames = new Set(
-        result.ast.statements
-          .filter((s) => s.type === 'Table')
-          .map((s) => (s as any).name)
+        result.ast.statements.filter((s) => s.type === "Table").map((s) => (s as any).name),
       );
 
       const preservedStatements = [...result.ast.statements];
@@ -64,7 +62,7 @@ export const useSdlStore = create<SdlState>((set, get) => ({
       // preserve its previous valid version from lastValidAst so it doesn't vanish.
       if (current.lastValidAst) {
         for (const prevStmt of current.lastValidAst.statements) {
-          if (prevStmt.type === 'Table' && !currentTableNames.has((prevStmt as any).name)) {
+          if (prevStmt.type === "Table" && !currentTableNames.has((prevStmt as any).name)) {
             const regex = new RegExp(`\\bTable\\s+${(prevStmt as any).name}\\b`);
             if (regex.test(current.sdlText)) {
               preservedStatements.push(prevStmt);
@@ -74,7 +72,7 @@ export const useSdlStore = create<SdlState>((set, get) => ({
       }
 
       set({
-        ast: { type: 'Program', statements: preservedStatements },
+        ast: { type: "Program", statements: preservedStatements },
         errors: result.errors,
         error: primaryError,
         isStale: true,
@@ -94,36 +92,36 @@ export const useSdlStore = create<SdlState>((set, get) => ({
   setAst: (ast, error = null, errors = []) => {
     get().setParseResult({
       ast,
-      errors: errors.length > 0 ? errors : (error ? [{ line: 1, column: 1, message: error }] : []),
+      errors: errors.length > 0 ? errors : error ? [{ line: 1, column: 1, message: error }] : [],
     });
   },
   saveToFile: async () => {
     const { sdlText } = get();
-    const blob = new Blob([sdlText], { type: 'text/plain' });
+    const blob = new Blob([sdlText], { type: "text/plain" });
 
-    if ('showSaveFilePicker' in window) {
+    if ("showSaveFilePicker" in window) {
       try {
         set({ isSaving: true });
         const handle = await window.showSaveFilePicker({
-          suggestedName: 'schema.erdforge',
-          types: [{ description: 'ERD Forge Schema', accept: { 'text/plain': ['.erdforge', '.sdl'] } }],
+          suggestedName: "schema.erdforge",
+          types: [{ description: "ERD Forge Schema", accept: { "text/plain": [".erdforge", ".sdl"] } }],
         });
         const writable = await handle.createWritable();
         await writable.write(blob);
         await writable.close();
       } catch (err: unknown) {
-        if (err instanceof DOMException && err.name === 'AbortError') {
+        if (err instanceof DOMException && err.name === "AbortError") {
           return;
         }
-        console.error('Failed to save file:', err);
+        console.error("Failed to save file:", err);
       } finally {
         set({ isSaving: false });
       }
     } else {
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = 'schema.erdforge';
+      a.download = "schema.erdforge";
       a.click();
       URL.revokeObjectURL(url);
     }

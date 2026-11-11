@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
+import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
 
-export type DisplayMode = 'full' | 'compact' | 'name-only';
+export type DisplayMode = "full" | "compact" | "name-only";
 
 interface Viewport {
   x: number;
@@ -30,22 +30,26 @@ export const useCanvasStore = create<CanvasSlice>()(
     viewport: { x: 0, y: 0, zoom: 1 },
     selection: [],
     activeSheetId: null,
-    displayMode: 'full',
+    displayMode: "full",
 
-    setViewport: (viewport) => set((state) => {
-      state.viewport = viewport;
-    }),
-    
-    setSelection: (selection) => set((state) => {
-      state.selection = selection;
-    }),
-    
-    setActiveSheetId: (sheetId) => set((state) => {
-      state.activeSheetId = sheetId;
-    }),
-    
-    setDisplayMode: (mode) => set((state) => {
-      state.displayMode = mode;
-    })
-  }))
+    setViewport: (viewport) =>
+      set((state) => {
+        state.viewport = viewport;
+      }),
+
+    setSelection: (selection) =>
+      set((state) => {
+        state.selection = selection;
+      }),
+
+    setActiveSheetId: (sheetId) =>
+      set((state) => {
+        state.activeSheetId = sheetId;
+      }),
+
+    setDisplayMode: (mode) =>
+      set((state) => {
+        state.displayMode = mode;
+      }),
+  })),
 );

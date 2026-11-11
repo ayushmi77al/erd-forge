@@ -122,3 +122,38 @@
 | **Action** | 1. Deleted unused `ErrorPanel.tsx` and `ErrorPanel.module.css`.<br/>2. Deleted 10 unused Command pattern classes (`EditColumnCommand`, `RenameTableCommand`, etc.) that were not integrated with the Zustand stores. |
 | **Why** | Follow-up on the redundancy audit to remove dead UI code and unintegrated architecture (YAGNI), reducing cognitive load for future maintenance. |
 | **Impact** | Reduced source code footprint; simpler architectural surface area. |
+
+## Entry 018 — 2026-11-10: Establish Web UI/UX Design Standards, Anti-Slop Rules & Agent Workflows
+| Field | Detail |
+|---|---|
+| **Action** | 1. Authored `.agents/rules/ui-ux-design-standards.md` establishing anti-AI-slop principles, high information density guidelines, design token enforcement (`tokens.css`), dark/light theme parity, canvas node memoization, and WCAG AA accessibility rules.<br/>2. Created `.agents/workflows/design-new-page.md` (6-phase workflow from Mobbin pattern research to DevTools & A11y verification).<br/>3. Created `.agents/workflows/redesign-screen.md` (5-step evidence-backed component redesign workflow).<br/>4. Created `.agents/workflows/ui-audit.md` (comprehensive design token, anti-slop, a11y, and canvas performance audit).<br/>5. Authored root `AGENTS.md` guiding AI agents on local-first laws, UI/UX design tokens, workflows, and verification commands.<br/>6. Updated `REPO_NAVIGATION.md` with new rules and workflows. |
+| **Why** | Align ERD Forge with pro developer tool ergonomics, eliminate AI UI slop, enforce design token compliance, and establish automated workflows for UI design, redesign, and auditing. |
+| **Impact** | All agents and contributors now adhere to rigorous UI/UX standards with dedicated slash workflows (`/design-new-page`, `/redesign-screen`, `/ui-audit`). |
+
+## Entry 019 — 2026-11-11: Execute Full 9-Phase UI/UX Overhaul (Tokens, Light/Dark Parity, A11y & Component Cleanup)
+| Field | Detail |
+|---|---|
+| **Action** | 1. Completed `apps/web/src/styles/tokens.css`, `themes/dark.css`, and `themes/light.css` with semantic surface/brand/text/status/lineage/shadow/typography/z-index tokens, imported both theme stylesheets in `main.tsx`, and added `resolveTheme` + `"dark"` default in `uiStore.ts` alongside a header Sun/Moon theme switcher.<br/>2. Eliminated raw hex/rgba literals, phantom CSS variables, gradient backgrounds, and inline static JSX styles across all 18 CSS modules and UI components (extracting `App.module.css`, `RelationEdge.module.css`, `TabRevokedBanner.tsx/.module.css`, and shared `editorTheme.ts` with CodeMirror `Compartment` reactivity).<br/>3. Replaced UI emojis with `lucide-react` icons, enforced WCAG 2.1 AA keyboard/focus/ARIA semantics (sibling interactive controls in `Sidebar`, `ArrowLeft`/`ArrowRight` resize in `ResizablePanel`, modal focus-on-mount and Escape handlers, `:focus-visible` outlines), and preserved `React.memo` across canvas nodes, edges, and canvas wrappers.<br/>4. Updated `REPO_NAVIGATION.md` with the newly added UI modules and helpers. |
+| **Why** | Remediate all theme, contrast, token, accessibility, anti-slop, and component-architecture findings identified during the full UI audit. |
+| **Impact** | Consistent dark/light theme parity with high text contrast, zero hardcoded palette leakage, keyboard-navigable controls, and stricter React Flow / TypeScript safety across `@erd-forge/web`. |
+
+## Entry 020 — 2026-11-11: Fix jsdom Node ESM Compatibility for Web Unit Tests
+| Field | Detail |
+|---|---|
+| **Action** | Updated `jsdom` devDependency in `apps/web/package.json` from `^30.0.1` to `^26.1.0` and refreshed `pnpm-lock.yaml`. |
+| **Why** | `jsdom@30.0.1` transitively depends on `html-encoding-sniffer@6.0.0`, which uses `require()` on the ESM-only `@exodus/bytes/encoding-lite.js` module and threw `ERR_REQUIRE_ESM` under Node `v20.11.1` when running `apps/web/tests/lineage/exportUtils.test.ts`. |
+| **Impact** | Restored full `vitest` execution on Node 20 without altering test assertions; all 28 web test files (175 tests) and the full workspace test suite pass. |
+
+## Entry 021 — 2026-11-11: Refine Header Mode-Switcher Centering & StatusBar Density
+| Field | Detail |
+|---|---|
+| **Action** | 1. Added `--font-size-2xs: 0.6875rem` in `apps/web/src/styles/tokens.css`, removed the duplicate top border from `AppShell.module.css`, and refined `StatusBar.tsx` / `StatusBar.module.css` with compact `11px` chrome typography, `1.2` line height, tabular numerals, `12px` uniform icons, hairline `.divider` separators, and long-error ellipsis truncation.<br/>2. Replaced asymmetrical flex spacing in `Header.module.css` (`margin-left: auto` on `.rightGroup`) with a balanced 3-column CSS Grid (`minmax(0, 1fr) auto minmax(0, 1fr)`), centering the ERD / SQL Lineage switcher (`role="tablist"`) cleanly, adding a brand divider in `Header.tsx`, and adding responsive collapse under `768px`. |
+| **Why** | Eliminate visual congestion, double-border crowding, and off-center drift in the top header and bottom status bar across both ERD and SQL Lineage views. |
+| **Impact** | Symmetrical top bar alignment at desktop and compact viewports alongside a balanced, single-border `32px` status bar in both dark and light themes. |
+
+## Entry 022 — 2026-11-11: Upgrade ERD Table Nodes, Crow's Foot Markers, Interactive Tracing & Layout Spacing
+| Field | Detail |
+|---|---|
+| **Action** | 1. Added `apps/web/src/components/canvas/relationshipGeometry.ts` (`getCardinality`, `getDirectionAngle`, `pickEdgeHandles`, `computeRelationFocus`) and unit tests in `apps/web/tests/core/layout/relationshipGeometry.test.ts`.<br/>2. Replaced floating `[1]`/`[N]` boxes in `RelationEdge.tsx` and `RelationEdge.module.css` with directional SVG Crow's Foot markers, wider hit targets (`interactionWidth={20}`), span-aware center pills with cardinality chips on hover/selection, and highlighted/dimmed transitions.<br/>3. Refined `TableNode.tsx` and `TableNode.module.css` (`248px`–`340px` width, column row `gap` + `.colLabel` ellipsis truncation, `FK`/`UQ` pills, header icon + column count badge, hover-revealed handles, and traced column/dim states).<br/>4. Wired `orientEdge`, staggered `pathOffset` channels, and hover/selection focus state (`hoveredNodeId`, `hoveredEdgeId`, `selectedEdgeId`, `computeRelationFocus`) in `ERDCanvas.tsx`, and widened `autoLayout.ts` defaults (`nodeWidth: 270`, `nodeSpacingY: 64`, `rankSpacing: 160`). |
+| **Why** | Eliminate column-name/type collisions (`total_amount`/`decimal(10,2)`), visual noise from idle handles and static badge boxes, and ambiguous overlapping connectors while enabling interactive relationship & column tracing. |
+| **Impact** | Crisp SVG Crow's Foot notation, clean card typography without overflow collisions, clearer orthogonal routing around dense/stacked tables, and instant relationship path + column tracing on hover or selection. |

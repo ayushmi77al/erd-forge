@@ -1,0 +1,27 @@
+.workspace {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 auto;
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.primaryPane {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.paneContent {
+  flex: 1 1 auto;
+  position: relative;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+}
+

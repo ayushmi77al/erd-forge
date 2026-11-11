@@ -1,31 +1,53 @@
 :root {
   /* Brand */
-  --color-brand-500: hsl(230, 70%, 55%);
+  --color-brand-300: hsl(230, 70%, 75%);
   --color-brand-400: hsl(230, 70%, 65%);
+  --color-brand-500: hsl(230, 70%, 55%);
   --color-brand-600: hsl(230, 70%, 45%);
-  
+
   /* Surfaces (Dark Mode defaults, overridden by theme files) */
   --color-surface-base: hsl(220, 20%, 8%);
   --color-surface-raised: hsl(220, 18%, 12%);
   --color-surface-overlay: hsl(220, 16%, 16%);
   --color-surface-sunken: hsl(220, 22%, 6%);
-  
+
   /* Borders */
   --color-border-subtle: hsl(220, 15%, 20%);
   --color-border-default: hsl(220, 15%, 25%);
   --color-border-strong: hsl(220, 15%, 35%);
-  
+
   /* Text */
   --color-text-primary: hsl(220, 15%, 95%);
-  --color-text-secondary: hsl(220, 12%, 65%);
-  --color-text-muted: hsl(220, 10%, 45%);
-  
+  --color-text-secondary: hsl(220, 12%, 68%);
+  --color-text-muted: hsl(220, 10%, 54%);
+  --color-text-disabled: hsl(220, 10%, 38%);
+  --color-text-inverse: hsl(0, 0%, 100%);
+
   /* Semantic */
   --color-success: hsl(152, 60%, 48%);
+  --color-success-text: hsl(152, 69%, 58%);
   --color-warning: hsl(38, 92%, 55%);
-  --color-error: hsl(355, 70%, 55%);
-  --color-info: hsl(210, 80%, 58%);
-  
+  --color-warning-text: hsl(43, 96%, 62%);
+  --color-error: hsl(355, 78%, 62%);
+  --color-error-text: hsl(355, 90%, 76%);
+  --color-info: hsl(199, 89%, 60%);
+
+  /* Lineage Node Accents */
+  --color-lineage-table: hsl(199, 89%, 60%);
+  --color-lineage-view: hsl(210, 80%, 62%);
+  --color-lineage-cte: hsl(270, 91%, 74%);
+  --color-lineage-subquery: hsl(48, 96%, 56%);
+  --color-lineage-final: hsl(142, 69%, 58%);
+  --color-lineage-window: hsl(175, 65%, 52%);
+  --color-lineage-set: hsl(20, 80%, 60%);
+
+  /* Overlays & Shadows */
+  --color-backdrop: hsla(220, 25%, 4%, 0.68);
+  --color-glass-bg: hsla(220, 20%, 10%, 0.88);
+  --shadow-sm: 0 1px 3px hsla(220, 30%, 2%, 0.35);
+  --shadow-md: 0 4px 12px hsla(220, 30%, 2%, 0.45);
+  --shadow-lg: 0 16px 36px -8px hsla(220, 30%, 2%, 0.6);
+
   /* Domain Colors */
   --domain-sales:       hsl(14, 80%, 58%);
   --domain-finance:     hsl(152, 60%, 45%);
@@ -37,17 +59,23 @@
   --domain-analytics:   hsl(230, 70%, 58%);
   --domain-ops:         hsl(20, 70%, 52%);
   --domain-legal:       hsl(260, 55%, 55%);
-  
+
   /* Review Status */
   --status-draft:       hsl(220, 10%, 55%);
   --status-review:      hsl(38, 85%, 52%);
   --status-approved:    hsl(152, 60%, 48%);
   --status-deprecated:  hsl(355, 60%, 50%);
-  
+
   /* Typography */
   --font-ui: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-  
+  --font-size-2xs: 0.6875rem;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.8125rem;
+  --font-size-base: 0.875rem;
+  --font-size-lg: 1rem;
+  --font-size-xl: 1.125rem;
+
   /* Spacing Scale */
   --space-1: 4px;
   --space-2: 8px;
@@ -58,17 +86,22 @@
   --space-8: 32px;
   --space-10: 40px;
   --space-12: 48px;
-  
+
   /* Border Radius */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-full: 9999px;
-  
+
   /* Transitions */
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --duration-fast: 120ms;
   --duration-normal: 200ms;
   --duration-slow: 350ms;
+
+  /* Z-index layers */
+  --z-dropdown: 100;
+  --z-modal: 1000;
+  --z-toast: 1100;
 }

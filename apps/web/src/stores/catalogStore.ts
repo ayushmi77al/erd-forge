@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
+import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
 
-export type ActiveView = 'tables' | 'views' | 'domains' | 'glossary';
+export type ActiveView = "tables" | "views" | "domains" | "glossary";
 
 interface CatalogState {
   searchQuery: string;
@@ -19,20 +19,23 @@ export type CatalogSlice = CatalogState & CatalogActions;
 
 export const useCatalogStore = create<CatalogSlice>()(
   immer((set) => ({
-    searchQuery: '',
-    activeView: 'tables',
+    searchQuery: "",
+    activeView: "tables",
     selectedTags: [],
 
-    setSearchQuery: (query) => set((state) => {
-      state.searchQuery = query;
-    }),
-    
-    setActiveView: (view) => set((state) => {
-      state.activeView = view;
-    }),
-    
-    setSelectedTags: (tags) => set((state) => {
-      state.selectedTags = tags;
-    })
-  }))
+    setSearchQuery: (query) =>
+      set((state) => {
+        state.searchQuery = query;
+      }),
+
+    setActiveView: (view) =>
+      set((state) => {
+        state.activeView = view;
+      }),
+
+    setSelectedTags: (tags) =>
+      set((state) => {
+        state.selectedTags = tags;
+      }),
+  })),
 );

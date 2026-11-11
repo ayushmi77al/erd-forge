@@ -1,14 +1,14 @@
-import React from 'react';
-import styles from './MainToolbar.module.css';
-import { Save, PanelLeftOpen } from 'lucide-react';
-import { useUIStore } from '../../stores/uiStore';
-import type { ViewMode } from '../../stores/uiStore';
-import { useSdlStore } from '../../stores/sdlStore';
+import { PanelLeftOpen, Save } from "lucide-react";
+import type React from "react";
+import { useSdlStore } from "../../stores/sdlStore";
+import type { ViewMode } from "../../stores/uiStore";
+import { useUIStore } from "../../stores/uiStore";
+import styles from "./MainToolbar.module.css";
 
-const VIEW_MODES: { label: string; value: ViewMode }[] = [
-  { label: 'SDL', value: 'sdl' },
-  { label: 'Split', value: 'split' },
-  { label: 'Canvas', value: 'canvas' },
+const VIEW_MODES: { label: string; ariaLabel: string; value: ViewMode }[] = [
+  { label: "SDL", ariaLabel: "SDL editor view", value: "sdl" },
+  { label: "Split", ariaLabel: "Split editor and canvas view", value: "split" },
+  { label: "Canvas", ariaLabel: "ERD canvas view", value: "canvas" },
 ];
 
 export const MainToolbar: React.FC = () => {
@@ -24,33 +24,40 @@ export const MainToolbar: React.FC = () => {
     <div className={styles.toolbar}>
       <div className={styles.leftGroup}>
         {!leftPanelOpen && (
-          <button 
+          <button
+            type="button"
             className={styles.catalogBtn}
             onClick={toggleLeftPanel}
             title="Open Catalog (Sidebar)"
-            aria-label="Open Catalog"
+            aria-label="Open catalog sidebar"
+            aria-expanded={false}
           >
-            <PanelLeftOpen size={15} />
+            <PanelLeftOpen size={15} aria-hidden="true" />
             <span>Catalog</span>
           </button>
         )}
-        <button 
-          className={styles.button} 
+        <button
+          type="button"
+          className={styles.button}
           title="Save Schema (Ctrl+S)"
           onClick={saveToFile}
           disabled={isSaving}
-          aria-label="Save"
+          aria-label="Save schema"
         >
-          <Save size={16} />
+          <Save size={16} aria-hidden="true" />
         </button>
 
-        <div className={styles.divider} />
+        <div className={styles.divider} aria-hidden="true" />
 
-        <div className={styles.modeSelector}>
+        <div className={styles.modeSelector} role="tablist" aria-label="Editor layout view">
           {VIEW_MODES.map((m) => (
             <button
               key={m.value}
-              className={`${styles.modeBtn} ${viewMode === m.value ? styles.active : ''}`}
+              type="button"
+              role="tab"
+              aria-selected={viewMode === m.value}
+              aria-label={m.ariaLabel}
+              className={`${styles.modeBtn} ${viewMode === m.value ? styles.active : ""}`}
               onClick={() => setViewMode(m.value)}
             >
               {m.label}
@@ -61,4 +68,3 @@ export const MainToolbar: React.FC = () => {
     </div>
   );
 };
-

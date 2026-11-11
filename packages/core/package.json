@@ -1,0 +1,21 @@
+{
+  "name": "@erd-forge/core",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "uuid": "^14.0.2"
+  },
+  "devDependencies": {
+    "@types/uuid": "^11.0.0",
+    "immer": "^11.1.18",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  }
+}

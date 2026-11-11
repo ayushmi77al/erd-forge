@@ -3,5 +3,5 @@ export interface Tag {
   name: string;
   color: string;
   description?: string;
-  category?: string;               // e.g., "governance", "technical", "business"
+  category?: string; // e.g., "governance", "technical", "business"
 }

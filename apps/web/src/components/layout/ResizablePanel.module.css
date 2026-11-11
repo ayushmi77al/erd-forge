@@ -3,7 +3,7 @@
   position: relative;
   height: 100%;
   flex-shrink: 0;
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-raised);
 }
 
 .content {
@@ -13,7 +13,8 @@
   flex-direction: column;
 }
 
-.resizerLeft, .resizerRight {
+.resizerLeft,
+.resizerRight {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -21,7 +22,7 @@
   cursor: col-resize;
   z-index: 10;
   background-color: transparent;
-  transition: background-color 0.2s;
+  transition: background-color var(--duration-normal) var(--ease-standard);
 }
 
 .resizerLeft {
@@ -32,6 +33,16 @@
   right: -2px;
 }
 
-.resizerLeft:hover, .resizerRight:hover, .resizerLeft:active, .resizerRight:active {
-  background-color: var(--color-primary);
+.resizerLeft:hover,
+.resizerRight:hover,
+.resizerLeft:active,
+.resizerRight:active {
+  background-color: var(--color-brand-400);
+}
+
+.resizerLeft:focus-visible,
+.resizerRight:focus-visible {
+  background-color: var(--color-brand-500);
+  outline: 2px solid var(--color-brand-400);
+  outline-offset: -1px;
 }

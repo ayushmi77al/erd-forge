@@ -24,16 +24,16 @@
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-lg);
   padding: var(--space-8);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-lg);
   max-width: 420px;
 }
 
 .emptyIconWrapper {
   width: 56px;
   height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: var(--radius-full);
+  background-color: color-mix(in srgb, var(--color-brand-500) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-brand-400) 30%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,13 +41,13 @@
 }
 
 .emptyTitle {
-  font-size: 1.1rem;
+  font-size: var(--font-size-lg);
   font-weight: 700;
   color: var(--color-text-primary);
 }
 
 .emptyText {
-  font-size: 0.82rem;
+  font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   line-height: 1.5;
 }
@@ -55,20 +55,27 @@
 .emptyActionBtn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
-  font-size: 0.85rem;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-sm);
   font-weight: 600;
   border-radius: var(--radius-sm);
   border: none;
   background-color: var(--color-brand-500);
-  color: #ffffff;
+  color: var(--color-text-inverse);
   cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-standard);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+  box-shadow: var(--shadow-sm);
 }
 
 .emptyActionBtn:hover {
   background-color: var(--color-brand-400);
   transform: translateY(-1px);
+}
+
+.emptyActionBtn:focus-visible {
+  outline: 2px solid var(--color-brand-400);
+  outline-offset: 2px;
 }
