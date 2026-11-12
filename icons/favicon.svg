@@ -1,0 +1,152 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 128 128"
+  role="img"
+  aria-labelledby="title desc"
+>
+  <title id="title">ERD Forge</title>
+  <desc id="desc">
+    Two database-style windows connected by red directional arrows.
+  </desc>
+
+  <!-- Background -->
+  <rect
+    x="10"
+    y="10"
+    width="108"
+    height="108"
+    rx="22"
+    fill="#000000"
+  />
+
+  <!-- Top-left window -->
+  <g>
+    <rect
+      x="24"
+      y="27"
+      width="40"
+      height="31"
+      rx="5"
+      fill="#5F6061"
+    />
+
+    <path
+      d="M25.5 37H62.5V53
+         A3.5 3.5 0 0 1 59 56.5
+         H29
+         A3.5 3.5 0 0 1 25.5 53Z"
+      fill="#18191A"
+    />
+
+    <circle cx="30.5" cy="32.5" r="2" fill="#101112"/>
+    <circle cx="37" cy="32.5" r="2" fill="#101112"/>
+
+    <path
+      d="M31 43.5H55"
+      stroke="#939596"
+      stroke-width="3"
+      stroke-linecap="round"
+    />
+
+    <path
+      d="M31 50H45"
+      stroke="#000000"
+      stroke-width="3"
+      stroke-linecap="round"
+    />
+  </g>
+
+  <!-- Bottom-right window -->
+  <g>
+    <rect
+      x="63"
+      y="69"
+      width="40"
+      height="31"
+      rx="5"
+      fill="#5F6061"
+    />
+
+    <path
+      d="M64.5 79H101.5V95
+         A3.5 3.5 0 0 1 98 98.5
+         H68
+         A3.5 3.5 0 0 1 64.5 95Z"
+      fill="#18191A"
+    />
+
+    <circle cx="68.5" cy="74.5" r="2" fill="#101112"/>
+    <circle cx="75" cy="74.5" r="2" fill="#101112"/>
+
+    <path
+      d="M70 85H94"
+      stroke="#939596"
+      stroke-width="3"
+      stroke-linecap="round"
+    />
+
+    <path
+      d="M70 91.5H84"
+      stroke="#000000"
+      stroke-width="3"
+      stroke-linecap="round"
+    />
+  </g>
+
+  <!-- Top-right connector -->
+  <!-- Circle is positioned at the connector's starting point -->
+  <circle
+    cx="69"
+    cy="39"
+    r="4"
+    fill="#f5222d"
+  />
+
+  <path
+    d="M68 39
+       H82
+       C87 39 90 42 90 47
+       V59"
+    fill="none"
+    stroke="#f5222d"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <path
+    d="M85.5 58.5
+       L90 65
+       L94.5 58.5
+       Z"
+    fill="#f5222d"
+  />
+
+  <!-- Bottom-left connector -->
+  <circle
+    cx="58"
+    cy="85"
+    r="4"
+    fill="#f5222d"
+  />
+
+  <path
+    d="M58 85
+       H47
+       C41 85 38 81 38 76
+       V67"
+    fill="none"
+    stroke="#f5222d"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <path
+    d="M33.5 68
+       L38 61.5
+       L42.5 68
+       Z"
+    fill="#f5222d"
+  />
+</svg>

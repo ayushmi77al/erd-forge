@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/tools/erd-forge/app/sw.js', { scope: '/tools/erd-forge/app/' })})}
