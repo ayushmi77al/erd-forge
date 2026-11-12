@@ -18,6 +18,23 @@ export type ModalType = "settings" | "import" | "export" | "shortcuts" | "tab-co
 export type ViewMode = "sdl" | "split" | "canvas";
 export type AppMode = "schema" | "lineage";
 
+/**
+ * Resolves initial workspace mode from URL query parameters (`?mode=lineage|schema`).
+ */
+export function getInitialAppMode(): AppMode {
+  if (typeof window !== "undefined") {
+    try {
+      const mode = new URLSearchParams(window.location.search).get("mode");
+      if (mode === "lineage" || mode === "schema") {
+        return mode;
+      }
+    } catch {
+      // Ignore URL parsing issues in restricted environments
+    }
+  }
+  return "schema";
+}
+
 export interface StorageStatus {
   engine: StorageEngineType;
   isFallback: boolean;
@@ -64,7 +81,7 @@ export const useUIStore = create<UISlice>()(
     leftPanelOpen: true,
     rightPanelOpen: false,
     viewMode: "split",
-    appMode: "schema",
+    appMode: getInitialAppMode(),
     activeModal: null,
     theme: "dark",
     isOnboardingCompleted: false,
