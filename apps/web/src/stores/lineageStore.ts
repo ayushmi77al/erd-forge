@@ -8,6 +8,37 @@ export type { ParseError, ParserEngine, SQLDialect };
 
 export type LineageViewMode = "table" | "column";
 
+const SUPPORTED_DIALECTS: ReadonlySet<SQLDialect> = new Set([
+  "mssql",
+  "postgresql",
+  "mysql",
+  "sqlite",
+  "oracle",
+  "bigquery",
+  "redshift",
+  "snowflake",
+  "databricks",
+]);
+
+/**
+ * Resolves initial SQL lineage dialect from URL query parameter (`?dialect=snowflake`, etc.).
+ */
+export function getInitialDialect(): SQLDialect {
+  if (typeof window !== "undefined") {
+    try {
+      const param = new URLSearchParams(window.location.search).get("dialect")?.toLowerCase();
+      if (param && SUPPORTED_DIALECTS.has(param as SQLDialect)) {
+        return param as SQLDialect;
+      }
+    } catch {
+      // Ignore URL parsing issues in restricted environments
+    }
+  }
+  return "mssql";
+}
+
+const initialDialect = getInitialDialect();
+
 const DEFAULT_SAMPLE_SQL = `-- Multi-statement SQL Pipeline Demonstration
 WITH MonthlySales AS (
   SELECT 
@@ -40,7 +71,7 @@ WHERE tc.rank <= 5;
 let initialGraph: LineageGraph | null = null;
 let initialErrors: ParseError[] = [];
 try {
-  const initResult = parseSQLLineage(DEFAULT_SAMPLE_SQL, "mssql");
+  const initResult = parseSQLLineage(DEFAULT_SAMPLE_SQL, initialDialect);
   initialGraph = initResult.graph;
   initialErrors = initResult.errors;
 } catch {
@@ -90,7 +121,7 @@ export type LineageStore = LineageState & LineageActions;
 export const useLineageStore = create<LineageStore>()(
   immer((set) => ({
     sql: DEFAULT_SAMPLE_SQL,
-    dialect: "mssql",
+    dialect: initialDialect,
     parserEngine: getInitialParserEngine(),
     graph: initialGraph,
     parseErrors: initialErrors,
